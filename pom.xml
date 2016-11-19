@@ -1,0 +1,93 @@
+<project xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://maven.apache.org/POM/4.0.0" xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.techguard</groupId>
+	<artifactId>iZone</artifactId>
+	<version>8.0.14</version>
+	<packaging>jar</packaging>
+
+	<name>iZone</name>
+	<description>This plugin allow you to setup custom zones for example shops, pvp areas or spawn.</description>
+	<url>https://tryharddood.esy.es</url>
+
+	<properties>
+		<server.version>1.10.2-R0.1-SNAPSHOT</server.version>
+		<vault.version>LATEST</vault.version>
+	</properties>
+
+	<dependencies>
+		<!--Spigot API-->
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>${server.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--Bukkit API-->
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>${server.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--Vault API-->
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>VaultAPI</artifactId>
+			<version>${vault.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.inventivetalent</groupId>
+			<artifactId>particleapi</artifactId>
+			<version>LATEST</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>spigot-repo</id>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>vault-repo</id>
+			<url>http://nexus.hc.to/content/repositories/pub_releases/</url>
+		</repository>
+		<repository>
+			<id>inventive-repo</id>
+			<url>http://repo.inventivetalent.org/content/groups/public/</url>
+		</repository>
+		<repository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${project.basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>

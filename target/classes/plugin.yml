@@ -1,0 +1,13 @@
+name: iZone
+main: net.techguard.izone.iZone
+version: 8.0.14
+description: Easy yet Complex
+softdepend: [Vault, Multiverse-Core, MultiWorld, ParticleLIB]
+authors:
+  - TechGuard
+  - TryHardDood
+commands:
+  izone:
+    description: Prints current version
+  zmod:
+    description: Prints all the 'iZone' zone commands
