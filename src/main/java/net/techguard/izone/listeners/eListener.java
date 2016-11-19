@@ -55,8 +55,8 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event) {
 		Entity      entity = event.getEntity();
+		
 		List<Block> blocks = new ArrayList<Block>();
-
 		for (Block b : event.blockList())
 		{
 			Zone zone = ZoneManager.getZone(b.getLocation());
