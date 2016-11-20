@@ -50,6 +50,10 @@ public class Config implements Configurable {
 		{
 			try
 			{
+				final Path path = configFile.getParent();
+				if (path != null)
+					Files.createDirectories(path);
+
 				Files.createFile(configFile);
 				load();
 				populate();
