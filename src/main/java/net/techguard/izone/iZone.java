@@ -53,7 +53,7 @@ public class iZone extends JavaPlugin {
 		if (serverVersion == Minecraft.Version.UNKNOWN)
 		{
 			getLogger().info("- Error loading iZone v" + this.getDescription().getVersion() + ".");
-			getLogger().info("Supported Minecraft versions are: 1.7, 1.8, 1.9 and 1.10");
+			getLogger().info("Supported Minecraft versions are: 1.7, 1.8, 1.9, 1.10 and 1.11");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}

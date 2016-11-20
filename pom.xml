@@ -8,10 +8,10 @@
 
 	<name>iZone</name>
 	<description>This plugin allow you to setup custom zones for example shops, pvp areas or spawn.</description>
-	<url>https://tryharddood.esy.es</url>
+	<url>https://tryharddood.github.com/web</url>
 
 	<properties>
-		<server.version>1.10.2-R0.1-SNAPSHOT</server.version>
+		<server.version>1.11-R0.1-SNAPSHOT</server.version>
 		<vault.version>LATEST</vault.version>
 	</properties>
 
@@ -67,6 +67,7 @@
 	</repositories>
 
 	<build>
+		<finalName>${project.name}</finalName>
 		<resources>
 			<resource>
 				<filtering>true</filtering>

@@ -9,6 +9,14 @@ Desktop.ini
 out/
 bin/
 .idea/
+.atom-build.yml
+dependency-reduced-pom.xml
+iZone.iml
+
+target/classes/
+target/generated-sources/
+target/maven-archiver/
+target/surefire/
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
