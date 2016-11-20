@@ -73,36 +73,43 @@ public class Config implements Configurable {
 	public void load() {
 		yamlConfig = YamlConfiguration.loadConfiguration(new File(configFile.toString()));
 
-		for (String key : get().getConfigurationSection("restriction.size").getKeys(false))
+		if(get().getConfigurationSection("restriction.size") != null)
 		{
-			Vector size = getVector(key);
-			if (size == null)
+			for (String key : get().getConfigurationSection("restriction.size").getKeys(false))
 			{
-				continue;
+				Vector size = getVector(key);
+				if (size == null)
+				{
+					continue;
+				}
+				String permission = get().getString("restriction.size." + key, "none");
+				if (permission.equals("none"))
+				{
+					continue;
+				}
+				Variables.PERMISSION_MAX_SIZE.put(permission, size);
 			}
-			String permission = get().getString("restriction.size." + key, "none");
-			if (permission.equals("none"))
-			{
-				continue;
-			}
-			Variables.PERMISSION_MAX_SIZE.put(permission, size);
 		}
-		for (String key : get().getConfigurationSection("restriction.zone").getKeys(false))
+		if(get().getConfigurationSection("restriction.zone") != null)
 		{
-			int size = 0;
-			try
+
+			for (String key : get().getConfigurationSection("restriction.zone").getKeys(false))
 			{
-				size = Integer.parseInt(key);
-			} catch (Exception e)
-			{
-				continue;
+				int size = 0;
+				try
+				{
+					size = Integer.parseInt(key);
+				} catch (Exception e)
+				{
+					continue;
+				}
+				String permission = get().getString("restriction.zone." + key, "none");
+				if (permission.equals("none"))
+				{
+					continue;
+				}
+				Variables.PERMISSION_MAX_ZONE.put(permission, size);
 			}
-			String permission = get().getString("restriction.zone." + key, "none");
-			if (permission.equals("none"))
-			{
-				continue;
-			}
-			Variables.PERMISSION_MAX_ZONE.put(permission, size);
 		}
 
 		for (Flags flag : Flags.values())
@@ -124,6 +131,8 @@ public class Config implements Configurable {
 
 	@Override
 	public void populate() {
+		yamlConfig = YamlConfiguration.loadConfiguration(new File(configFile.toString()));
+
 		for (Flags flag : Flags.values())
 		{
 			get().set("on-create." + flag.toString(), (flag == Flags.PROTECTION) || (flag == Flags.INTERACT));
