@@ -214,7 +214,8 @@ public class iZone extends JavaPlugin {
 			zone.setFarewell(saveFile.getString("farewell", ""));
 			zone.setGamemode(GameMode.valueOf(saveFile.getString("gamemode", "SURVIVAL")));
 
-			zone.setTeleport(getLocationString(saveFile.getString("teleport", null)));
+			if(saveFile.getString("teleport") != null)
+				zone.setTeleport(getLocationString(saveFile.getString("teleport")));
 
 			zone.setBorder(1, new Location(zone.getWorld(), saveFile.getInt("border1.x", 0), saveFile.getInt("border1.y", 0), saveFile.getInt("border1.z", 0)));
 			zone.setBorder(2, new Location(zone.getWorld(), saveFile.getInt("border2.x", 0), saveFile.getInt("border2.y", 0), saveFile.getInt("border2.z", 0)));

@@ -170,7 +170,7 @@ public class flagCommand extends zmodBase {
 						if(isSafeLocation(location))
 						{
 							zone.setTeleport(location);
-							player.sendMessage("Successfully set teleport position");
+							player.sendMessage(iZone.getPrefix() + ChatColor.GOLD + "Successfully set teleport position");
 							if (zone.hasFlag(flag2))
 							{
 								return;

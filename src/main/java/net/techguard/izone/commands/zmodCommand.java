@@ -213,6 +213,7 @@ public class zmodCommand extends BaseCommand {
 			{
 				items.add(new ItemBuilder(Variables.getMyHouseItem()).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + zones.get(i).getName()).addLore("§8", ChatColor.GRAY + "" + ChatColor.BOLD + "[LEFT CLICK]" + ChatColor.GREEN + " To manage the zone.", ChatColor.GRAY + "" + ChatColor.BOLD + "[RIGHT CLICK]" + ChatColor.GREEN + " To teleport to the zone border.").build());
 			}
+
 			PageInventory pageInventory = new PageInventory("iZone - v" + plugin.getDescription().getVersion(), items);
 			pageInventory.show(player);
 
@@ -247,7 +248,7 @@ public class zmodCommand extends BaseCommand {
 					Location loc = zone.getTeleport();
 					if(loc == null)
 					{
-						player.sendMessage("Not set!");
+						player.sendMessage(iZone.getPrefix() + phrase("zone_teleport_not_set"));
 						return;
 					}
 

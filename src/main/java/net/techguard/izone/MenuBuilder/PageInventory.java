@@ -26,7 +26,12 @@ public final class PageInventory extends InventoryMenuBuilder {
 	private int     inventorySize        = 54;
 
 	public PageInventory(String inventoryName, ArrayList<ItemStack> itemStacks) {
-		super((itemStacks.size() <= 54) ? Math.min(54, (int) (Math.ceil((double) itemStacks.size() / 9))) : 54, inventoryName);
+		super(getInventorySize(itemStacks.size()), inventoryName); // Erre a sorra hibát ír.
+		setPages(itemStacks);
+	}
+
+	public PageInventory(String inventoryName, ItemStack... itemStacks) {
+		super(getInventorySize(itemStacks.length), inventoryName);
 		setPages(itemStacks);
 	}
 
@@ -52,6 +57,10 @@ public final class PageInventory extends InventoryMenuBuilder {
 		this.inventorySize = Math.min(54, (int) (Math.ceil((double) inventorySize / 9)) * 9);
 		this.dynamicInventorySize = false;
 		pages.put(0, new ItemStack[0]);
+	}
+
+	public static int getInventorySize(int size) {
+		return size > 54 ? 54 : (int) Math.min(54, Math.ceil((double) size / 9) * 9);
 	}
 
 	public ItemStack getBackPage() {
@@ -146,10 +155,6 @@ public final class PageInventory extends InventoryMenuBuilder {
 		return pages;
 	}
 
-	public void setPages(ArrayList<ItemStack> allItems) {
-		setPages(allItems.toArray(new ItemStack[allItems.size()]));
-	}
-
 	public void setPages(ItemStack... allItems) {
 		pages.clear();
 		int         invPage     = 0;
@@ -201,6 +206,10 @@ public final class PageInventory extends InventoryMenuBuilder {
 		setPage(getCurrentPage());
 	}
 
+	public void setPages(ArrayList<ItemStack> allItems) {
+		setPages(allItems.toArray(new ItemStack[allItems.size()]));
+	}
+
 	public void setPage(int newPage) {
 		if (pages.containsKey(newPage))
 		{
@@ -214,7 +223,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 
 	public ItemStack getPaddingItem() {
 		if (paddingItem == null)
-			paddingItem = new ItemBuilder(Material.STAINED_GLASS_PANE, (short) 0).setTitle("§8").build();
+			paddingItem = new ItemBuilder(Material.STAINED_GLASS_PANE, (short) 0).setTitle("ยง8").build();
 		return paddingItem;
 	}
 }
