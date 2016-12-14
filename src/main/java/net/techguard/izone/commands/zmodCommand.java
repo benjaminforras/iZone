@@ -63,12 +63,12 @@ public class zmodCommand extends BaseCommand {
 
 			if (item.getType() == Material.SIGN)
 			{
-				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle("Zone Management - Flags");
+				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle(phrase("gui_zone_management") + " - " + phrase("gui_flags"));
 
 				int i = 0;
 				for (Flags flag : zone.getAllFlags())
 				{
-					imb.withItem(i, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")).build());
+					imb.withItem(i, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? phrase("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_off"))).build());
 					i++;
 				}
 
@@ -77,7 +77,7 @@ public class zmodCommand extends BaseCommand {
 			}
 			else if (item.getType() == Material.SKULL_ITEM)
 			{
-				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle("Zone Management - Allowed players");
+				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle(phrase("gui_zone_management") + " - " + phrase("gui_allowed_players"));
 
 				int i = 0;
 				for (String member : zone.getAllowed())
@@ -86,7 +86,7 @@ public class zmodCommand extends BaseCommand {
 					{
 						continue;
 					}
-					imb.withItem(i, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + member).addLore(ChatColor.RED + "" + ChatColor.BOLD + "Right click to remove this member").build());
+					imb.withItem(i, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + member).addLore(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_remove_member_lore")).build());
 					i++;
 				}
 
@@ -149,8 +149,8 @@ public class zmodCommand extends BaseCommand {
 						zone.setFarewell("See you soon");
 					}
 
-					player.sendMessage(iZone.getPrefix() + phrase("flag_set", flag.getName(), (zone.hasFlag(flag) ? ChatColor.GREEN + "" + ChatColor.BOLD + "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")));
-					event.getInventory().setItem(event.getSlot(), new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")).build());
+					player.sendMessage(iZone.getPrefix() + phrase("flag_set", flag.getName(), (zone.hasFlag(flag) ? ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_off"))));
+					event.getInventory().setItem(event.getSlot(), new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? phrase("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_off"))).build());
 
 					player.updateInventory();
 				}
@@ -214,7 +214,7 @@ public class zmodCommand extends BaseCommand {
 				items.add(new ItemBuilder(Variables.getMyHouseItem()).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + zones.get(i).getName()).addLore("§8", ChatColor.GRAY + "" + ChatColor.BOLD + "[LEFT CLICK]" + ChatColor.GREEN + " To manage the zone.", ChatColor.GRAY + "" + ChatColor.BOLD + "[RIGHT CLICK]" + ChatColor.GREEN + " To teleport to the zone border.").build());
 			}
 
-			PageInventory pageInventory = new PageInventory("iZone - v" + plugin.getDescription().getVersion(), items);
+			PageInventory pageInventory = new PageInventory(phrase("gui_main_title"), items);
 			pageInventory.show(player);
 
 			pageInventory.onInteract((player1, action, event) ->
@@ -264,17 +264,17 @@ public class zmodCommand extends BaseCommand {
 					return;
 				}
 
-				InventoryMenuBuilder imb = new InventoryMenuBuilder(9, "Zone Management");
-				imb.withItem(0, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + "Flags").addLore(ChatColor.GREEN + "" + ChatColor.BOLD + "Click here to set flags").build());
-				imb.withItem(4, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + "Allowed players").addLore(ChatColor.GREEN + "" + ChatColor.BOLD + "Click here to add members to this zone.").build());
+				InventoryMenuBuilder imb = new InventoryMenuBuilder(9, phrase("gui_zone_management"));
+				imb.withItem(0, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + phrase("gui_button_flags")).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_set_flag_lore")).build());
+				imb.withItem(4, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + phrase("gui_button_allowed_players")).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_add_players_lore")).build());
 
 				if (iZone.serverVersion.newerThan(net.techguard.izone.Minecraft.Version.v1_8_R1))
 				{
-					imb.withItem(8, new ItemBuilder(Material.BARRIER).setTitle(ChatColor.RED + "" + ChatColor.BOLD + "Delete zone").addLore(ChatColor.RED + "" + ChatColor.BOLD + "Click here to remove this zone").build());
+					imb.withItem(8, new ItemBuilder(Material.BARRIER).setTitle(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_button_delete_zone")).addLore(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_remove_zone")).build());
 				}
 				else
 				{
-					imb.withItem(8, new ItemBuilder(Material.LAVA_BUCKET).setTitle(ChatColor.RED + "" + ChatColor.BOLD + "Delete zone").addLore(ChatColor.RED + "" + ChatColor.BOLD + "Click here to remove this zone").build());
+					imb.withItem(8, new ItemBuilder(Material.LAVA_BUCKET).setTitle(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_button_delete_zone")).addLore(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_remove_zone")).build());
 				}
 				imb.show(player);
 				imb.onInteract(settingsMenuListener, ClickType.LEFT);

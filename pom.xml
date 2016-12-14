@@ -3,7 +3,7 @@
 
 	<groupId>net.techguard</groupId>
 	<artifactId>iZone</artifactId>
-	<version>8.0.14</version>
+	<version>8.0.14-bTRAVIS_BUILD_NUMBER</version>
 	<packaging>jar</packaging>
 
 	<name>iZone</name>

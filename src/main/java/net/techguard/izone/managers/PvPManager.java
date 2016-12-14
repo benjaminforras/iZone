@@ -6,6 +6,8 @@ import net.techguard.izone.zones.Zone;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import static net.techguard.izone.Phrases.phrase;
+
 public class PvPManager {
 
 	public static boolean onPlayerAttack(Player defender, Player damager) {
@@ -20,7 +22,7 @@ public class PvPManager {
 		Zone attack_zone = ZoneManager.getZone(damager.getLocation());
 		if (((defend_zone != null) && (defend_zone.hasFlag(Flags.PVP))) || ((attack_zone != null) && (attack_zone.hasFlag(Flags.PVP))))
 		{
-			damager.sendMessage(iZone.getPrefix() + ChatColor.RED + "You can't PVP here!");
+			damager.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("pvp_disabled"));
 			return true;
 		}
 		return false;

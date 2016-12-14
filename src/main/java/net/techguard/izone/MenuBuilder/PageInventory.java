@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static net.techguard.izone.Phrases.phrase;
+
 /*****************************************************
  *              Created by TryHardDood on 2016. 10. 31..
  ****************************************************/
@@ -26,7 +28,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 	private int     inventorySize        = 54;
 
 	public PageInventory(String inventoryName, ArrayList<ItemStack> itemStacks) {
-		super(getInventorySize(itemStacks.size()), inventoryName); // Erre a sorra hibát ír.
+		super(getInventorySize(itemStacks.size()), inventoryName);
 		setPages(itemStacks);
 	}
 
@@ -66,7 +68,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 	public ItemStack getBackPage() {
 		if (backAPage == null)
 		{
-			backAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "Previous page").build();
+			backAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_menu_back")).build();
 		}
 		return backAPage;
 	}
@@ -78,7 +80,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 	public ItemStack getForwardsPage() {
 		if (forwardsAPage == null)
 		{
-			forwardsAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "Next page").build();
+			forwardsAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_menu_next")).build();
 		}
 		return forwardsAPage;
 	}

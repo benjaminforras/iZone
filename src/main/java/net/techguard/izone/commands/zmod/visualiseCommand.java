@@ -27,8 +27,8 @@ public class visualiseCommand extends zmodBase {
 		if (!ConfigManager.isParticlesEnabled())
 		{
 			if (player.isOp())
-				player.sendMessage(iZone.getPrefix() + ChatColor.RED + "You have to enable particles in the config.yml file.");
-			else player.sendMessage(iZone.getPrefix() + ChatColor.RED + "Visualizing is currently disabled.");
+				player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("particles_not_enabled"));
+			else player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("particles_disabled"));
 			return;
 		}
 
@@ -39,7 +39,7 @@ public class visualiseCommand extends zmodBase {
 		{
 			if (player.isOp())
 				player.sendMessage(iZone.getPrefix() + ChatColor.RED + "" + ChatColor.BOLD + "Missing ParticleAPI!!");
-			else player.sendMessage(iZone.getPrefix() + ChatColor.RED + "Visualizing is currently disabled.");
+			else player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("particles_disabled"));
 			return;
 		}
 

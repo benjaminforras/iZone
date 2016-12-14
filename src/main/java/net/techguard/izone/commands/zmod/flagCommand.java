@@ -171,25 +171,23 @@ public class flagCommand extends zmodBase {
 
 						Border border = new Border(zone.getBorder1().toVector(), zone.getBorder2().toVector());
 						if(!border.contains(player.getLocation())) {
-							player.sendMessage(iZone.getPrefix() + ChatColor.RED + "This location is not in your zone.");
+							player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("flag_teleport_not_in_zone"));
 							return;
 						}
 
 						if(isSafeLocation(location))
 						{
 							zone.setTeleport(location);
-							player.sendMessage(iZone.getPrefix() + ChatColor.GOLD + "Successfully set teleport position");
+							player.sendMessage(iZone.getPrefix() + ChatColor.GOLD + phrase("flag_teleport_set"));
 							if (zone.hasFlag(flag2))
 							{
 								return;
 							}
 						}
-						else player.sendMessage("Not safe!!");
+						else player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("flag_teleport_notsafe"));
 					}
 
 					zone.setFlag(flag2.getId(), !zone.hasFlag(flag2));
-
-					//player.sendMessage(iZone.getPrefix() + phrase("zone_flag_gamemode_hint"));
 					player.sendMessage(iZone.getPrefix() + phrase("flag_set", flag2.getName(), (zone.hasFlag(flag2) ? ChatColor.GREEN + "" + ChatColor.BOLD + "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")));
 				}
 			}
