@@ -38,7 +38,7 @@ public class visualiseCommand extends zmodBase {
 		} catch (ClassNotFoundException e)
 		{
 			if (player.isOp())
-				player.sendMessage(iZone.getPrefix() + ChatColor.RED + "" + ChatColor.BOLD + "Missing ParticleAPI!!");
+				player.sendMessage(iZone.getPrefix() + ChatColor.RED + "" + ChatColor.BOLD + phrase("particles_missing_lib"));
 			else player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("particles_disabled"));
 			return;
 		}
