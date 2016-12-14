@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 BRANCH="master"
 
 # Are we on the right branch?
