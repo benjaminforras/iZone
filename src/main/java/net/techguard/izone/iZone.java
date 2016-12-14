@@ -176,8 +176,8 @@ public class iZone extends JavaPlugin {
 			java.util.Properties overridesProps = new java.util.Properties();
 			try
 			{
-				//overridesProps.load(new FileInputStream(overrides));
-				overridesProps.load(new BufferedReader(new InputStreamReader(new FileInputStream(overrides), "UTF-8")));
+				overridesProps.load(new FileInputStream(overrides));
+				//overridesProps.load(new BufferedReader(new InputStreamReader(new FileInputStream(overrides), "UTF-8")));
 			} catch (IOException e)
 			{
 				e.printStackTrace();
