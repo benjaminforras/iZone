@@ -280,7 +280,6 @@ public class zmodCommand extends BaseCommand {
 				imb.onInteract(settingsMenuListener, ClickType.LEFT);
 			}, ClickType.LEFT, ClickType.RIGHT);
 
-			player.getInventory().addItem(Variables.getMyHouseItem());
 			player.sendMessage(iZone.getPrefix() + phrase("chat_help", "/zmod help"));
 		}
 		else
