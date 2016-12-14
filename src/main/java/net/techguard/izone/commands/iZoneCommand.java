@@ -40,6 +40,7 @@ public class iZoneCommand extends BaseCommand {
 			{
 				ZoneManager.getZones().clear();
 				iZone.instance.reloadConfiguration();
+				iZone.instance.loadLanguageFile();
 				player.sendMessage(iZone.getPrefix() + phrase("chat_reload", iZone.instance.getDescription().getVersion()));
 			}
 		}

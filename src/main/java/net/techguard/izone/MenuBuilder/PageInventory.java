@@ -223,7 +223,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 
 	public ItemStack getPaddingItem() {
 		if (paddingItem == null)
-			paddingItem = new ItemBuilder(Material.STAINED_GLASS_PANE, (short) 0).setTitle("ยง8").build();
+			paddingItem = new ItemBuilder(Material.STAINED_GLASS_PANE, (short) 0).setTitle("§8").build();
 		return paddingItem;
 	}
 }
