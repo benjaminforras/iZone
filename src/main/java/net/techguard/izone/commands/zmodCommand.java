@@ -204,6 +204,23 @@ public class zmodCommand extends BaseCommand {
 	}
 
 	public void onPlayerCommand(Player player, String[] cmd) {
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				player.sendMessage(iZone.getPrefix() + phrase("world_disabled"));
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				player.sendMessage(iZone.getPrefix() + phrase("world_disabled"));
+				return;
+			}
+		}
+
 		if (cmd.length == 1)
 		{
 			ArrayList<Zone> zones = ZoneManager.getZones().stream().filter(zone -> zone.getOwners().contains(player.getName())).collect(Collectors.toCollection(ArrayList::new));
@@ -243,16 +260,16 @@ public class zmodCommand extends BaseCommand {
 				zone = ZoneManager.getZone(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
 				if (zone == null) return;
 
-				if(action == ClickType.RIGHT)
+				if (action == ClickType.RIGHT)
 				{
 					Location loc = zone.getTeleport();
-					if(loc == null)
+					if (loc == null)
 					{
 						player.sendMessage(iZone.getPrefix() + phrase("zone_teleport_not_set"));
 						return;
 					}
 
-					if(!isSafeLocation(loc))
+					if (!isSafeLocation(loc))
 					{
 						player.teleport(loc);
 					}
@@ -331,17 +348,20 @@ public class zmodCommand extends BaseCommand {
 	private boolean isSafeLocation(Location location) {
 
 		Block feet = location.getBlock();
-		if (!feet.getType().isTransparent() && !feet.getLocation().add(0, 1, 0).getBlock().getType().isTransparent()) {
+		if (!feet.getType().isTransparent() && !feet.getLocation().add(0, 1, 0).getBlock().getType().isTransparent())
+		{
 			return false;
 		}
 
 		Block head = feet.getRelative(BlockFace.UP);
-		if (!head.getType().isTransparent()) {
+		if (!head.getType().isTransparent())
+		{
 			return false;
 		}
 
 		Block ground = feet.getRelative(BlockFace.DOWN);
-		if (!ground.getType().isSolid()) {
+		if (!ground.getType().isSolid())
+		{
 			return false;
 		}
 		return true;

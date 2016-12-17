@@ -8,6 +8,9 @@ Desktop.ini
 #Compiler
 out/
 bin/
+build/
+.gradle/
+gradle/
 .idea/
 .atom-build.yml
 dependency-reduced-pom.xml

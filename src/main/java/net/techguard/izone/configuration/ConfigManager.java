@@ -12,6 +12,7 @@ public class ConfigManager {
 	public static  boolean[]    autoFlag    = new boolean[Flags.values().length];
 	private static Configurable mainConfig  = Config.getConfig();
 	private static Configurable vaultConfig = VaultConfig.getConfig();
+	private static Configurable disabledWorldsConfig = DisabledWorldsConfig.getConfig();
 
 	public static int getViewDistance() {
 		return Bukkit.getViewDistance();
@@ -94,5 +95,16 @@ public class ConfigManager {
 
 	public static String getParticle() {
 		return mainConfig.get().getString("particles.particle", "FIREWORKS_SPARK");
+	}
+
+
+	public static boolean useAsWhiteList()
+	{
+		return disabledWorldsConfig.get().getBoolean("useAsWhitelist", false);
+	}
+
+	public static boolean containsWorld(String world)
+	{
+		return disabledWorldsConfig.get().getStringList("disabledWorlds").contains(world);
 	}
 }

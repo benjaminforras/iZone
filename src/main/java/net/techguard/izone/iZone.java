@@ -4,10 +4,7 @@ import net.techguard.izone.MenuBuilder.inventory.InventoryListener;
 import net.techguard.izone.commands.CommandManager;
 import net.techguard.izone.commands.iZoneCommand;
 import net.techguard.izone.commands.zmodCommand;
-import net.techguard.izone.configuration.Config;
-import net.techguard.izone.configuration.ConfigManager;
-import net.techguard.izone.configuration.Configurable;
-import net.techguard.izone.configuration.VaultConfig;
+import net.techguard.izone.configuration.*;
 import net.techguard.izone.listeners.bListener;
 import net.techguard.izone.listeners.eListener;
 import net.techguard.izone.listeners.pListener;
@@ -37,7 +34,8 @@ public class iZone extends JavaPlugin {
 	public static  iZone             instance;
 	public static  Minecraft.Version serverVersion;
 	private static Configurable      mainConfig;
-	private static VaultConfig       vaultConfig;
+	private static Configurable      disabledWorldsConfig;
+	private static Configurable       vaultConfig;
 	public         InventoryListener inventoryListener;
 	private        CommandManager    commandManager;
 
@@ -68,25 +66,15 @@ public class iZone extends JavaPlugin {
 
 		mainConfig = Config.getConfig();
 		mainConfig.setup();
+
+		disabledWorldsConfig = DisabledWorldsConfig.getConfig();
+		disabledWorldsConfig.setup();
+
 		vaultConfig = VaultConfig.getConfig();
 		vaultConfig.setup();
+
 		loadUpdate();
 		loadLanguageFile();
-
-		if (ConfigManager.isParticlesEnabled())
-		{
-			try
-			{
-				Class.forName("org.inventivetalent.particle.ParticleEffect");
-			} catch (ClassNotFoundException e)
-			{
-				getLogger().warning("ParticleAPI not found! This will cause problems!!");
-				getLogger().warning("ParticleAPI not found! This will cause problems!!");
-				getLogger().warning("ParticleAPI not found! This will cause problems!!");
-				getLogger().warning("ParticleAPI not found! This will cause problems!!");
-				getLogger().warning("ParticleAPI not found! This will cause problems!!");
-			}
-		}
 
 		if (ConfigManager.getHealthListener())
 		{
@@ -190,6 +178,8 @@ public class iZone extends JavaPlugin {
 	public void reloadConfiguration() {
 		mainConfig = Config.getConfig();
 		mainConfig.load();
+		disabledWorldsConfig = DisabledWorldsConfig.getConfig();
+		disabledWorldsConfig.load();
 		vaultConfig = VaultConfig.getConfig();
 		vaultConfig.load();
 	}

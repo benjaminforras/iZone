@@ -1,5 +1,6 @@
 package net.techguard.izone.listeners;
 
+import net.techguard.izone.configuration.ConfigManager;
 import net.techguard.izone.iZone;
 import net.techguard.izone.managers.PvPManager;
 import net.techguard.izone.managers.ZoneManager;
@@ -34,6 +35,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		Entity entity = event.getEntity();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(entity.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(entity.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Zone   zone   = ZoneManager.getZone(event.getLocation());
 
 		if (zone != null)
@@ -55,7 +71,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event) {
 		Entity      entity = event.getEntity();
-		
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(entity.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(entity.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		List<Block> blocks = new ArrayList<Block>();
 		for (Block b : event.blockList())
 		{
@@ -75,6 +105,21 @@ public class eListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityChangeBlock(EntityChangeBlockEvent event) {
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(event.getBlock().getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(event.getBlock().getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		if ((event.isCancelled()) || (event.getEntityType() != EntityType.ENDERMAN))
 		{
 			return;
@@ -91,6 +136,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Zone   zone   = ZoneManager.getZone(player.getLocation());
 
 		if (zone != null)
@@ -112,6 +172,20 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
 
 		if (this.safeDeath.containsKey(player.getName()))
 		{
@@ -124,6 +198,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent event) {
 		Entity defender = event.getEntity();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(defender.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(defender.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Zone   zone     = ZoneManager.getZone(defender.getLocation());
 
 		if ((event instanceof EntityDamageByEntityEvent))
@@ -225,6 +314,21 @@ public class eListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onHangingBreak(HangingBreakEvent event) {
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(event.getEntity().getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(event.getEntity().getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		if ((event instanceof HangingBreakByEntityEvent))
 		{
 			onHangingBreakByEntity((HangingBreakByEntityEvent) event);
@@ -260,6 +364,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onHangingPlace(HangingPlaceEvent event) {
 		Player  player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Hanging h      = event.getEntity();
 		Zone    zone   = ZoneManager.getZone(h.getLocation());
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
@@ -272,6 +391,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Entity entity = event.getRightClicked();
 		if ((player == null) || (entity == null))
 		{
@@ -291,6 +425,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onArmorStand(PlayerArmorStandManipulateEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Entity entity = event.getRightClicked();
 		if ((player == null) || (entity == null))
 		{
@@ -307,6 +456,21 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityBlockFormEvent(EntityBlockFormEvent event) {
 		Entity player = event.getEntity();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		if ((player instanceof Player))
 		{
 			Zone zone = ZoneManager.getZone(player.getLocation());

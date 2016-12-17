@@ -32,17 +32,6 @@ public class visualiseCommand extends zmodBase {
 			return;
 		}
 
-		try
-		{
-			Class.forName("org.inventivetalent.particle.ParticleEffect");
-		} catch (ClassNotFoundException e)
-		{
-			if (player.isOp())
-				player.sendMessage(iZone.getPrefix() + ChatColor.RED + "" + ChatColor.BOLD + phrase("particles_missing_lib"));
-			else player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("particles_disabled"));
-			return;
-		}
-
 		Settings   settings = Settings.getSett(player);
 		Location[] c        = {settings.getBorder1(), settings.getBorder2()};
 		if ((c[0] == null) || (c[1] == null))

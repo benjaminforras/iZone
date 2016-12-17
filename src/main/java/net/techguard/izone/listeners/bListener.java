@@ -1,5 +1,6 @@
 package net.techguard.izone.listeners;
 
+import net.techguard.izone.configuration.ConfigManager;
 import net.techguard.izone.iZone;
 import net.techguard.izone.managers.ZoneManager;
 import net.techguard.izone.zones.Flags;
@@ -26,6 +27,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Block  b      = event.getBlock();
 		Zone   zone   = ZoneManager.getZone(b.getLocation());
 
@@ -39,6 +55,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Block  b      = event.getBlock();
 		Zone   zone   = ZoneManager.getZone(b.getLocation());
 
@@ -73,6 +104,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockPistonExtend(BlockPistonExtendEvent event) {
 		Block bl     = event.getBlock();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(bl.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(bl.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Zone  zone   = ZoneManager.getZone(bl.getLocation());
 		Zone  zoneIn = null;
 
@@ -104,6 +150,21 @@ public class bListener implements Listener {
 			return;
 		}
 		Block b      = event.getBlocks().get(0);
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Zone  zone   = ZoneManager.getZone(event.getBlock().getLocation());
 		Zone  zoneIn = ZoneManager.getZone(b.getLocation());
 		if ((zone != zoneIn) && (zoneIn != null) && (zoneIn.hasFlag(Flags.PROTECTION)))
@@ -115,6 +176,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockBurn(BlockBurnEvent event) {
 		Block b    = event.getBlock();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Zone  zone = ZoneManager.getZone(b.getLocation());
 
 		if ((zone != null) && (zone.hasFlag(Flags.FIRE)))
@@ -125,6 +201,22 @@ public class bListener implements Listener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onPotionSplash(PotionSplashEvent event) {
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(event.getEntity().getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(event.getEntity().getWorld().getName()))
+			{
+				return;
+			}
+		}
+
+
 		for (LivingEntity e : event.getAffectedEntities())
 		{
 			if (e instanceof Player)
@@ -162,6 +254,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockIgnite(BlockIgniteEvent event) {
 		Block                        b     = event.getBlock();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		BlockIgniteEvent.IgniteCause cause = event.getCause();
 		Zone                         zone  = ZoneManager.getZone(b.getLocation());
 
@@ -209,6 +316,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockSpread(BlockSpreadEvent event) {
 		Block    b        = event.getSource();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(b.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Material newState = event.getNewState().getType();
 		Zone     zone     = ZoneManager.getZone(b.getLocation());
 
@@ -221,6 +343,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBlockFade(BlockFadeEvent event) {
 		Block      before = event.getBlock();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(before.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(before.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		BlockState after  = event.getNewState();
 		Zone       zone   = ZoneManager.getZone(before.getLocation());
 
@@ -233,6 +370,21 @@ public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onBlockFromTo(BlockFromToEvent event) {
 		Block block = event.getBlock();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(block.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(block.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		if (!block.isLiquid())
 		{
 			return;

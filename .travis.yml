@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: java
 jdk: oraclejdk8
 after_success:
@@ -7,7 +7,7 @@ deploy:
   provider: releases
   api_key:
     secure: WXeq2loRAPNwigCO0cSXP4ioq4Rkh9u8lnDZtQffmERgsqtN/WCMyiF0sYOTJydiWmLvImPmkx4yWKyh/boibp3O/CkHG8wMipuQMh/Rvf1dsHquj05gJt7EloCYxyRbhVsLdemDhhEl4OMObdEc5kxhxIPqWnVQR/mULZ7zH0fo1y2mt9f0iJuVljJY1UqPgti6IjZHmqkRJxykmdV9DMVEsjO15XnPIE+BPLox0FoUU34Uir2/w2sQlSPC9RHmkiXPEn/aigbbsih1BJE1bhOChmmLkRCAtAskJxyM8WLRS6bQS1twDg9wFQ5znFZLeMorGGIaK3mwDodCu2YKedB1aWdHufsHTAAq88wIoJlEMnx4vsfcF+NsYB4QbjcjqiIdYTQ1h+FAnS30OG9HK3k+2Nt3wBqTmxsdNj5d2tVoYIWw87HPudd2O3nuhbWrTSgIZFTjZPQI4ktffvg7JClLYJMSueApNQFjZJ+101cJoWeWKWuXR9JpwS/QTkduedRZpShnApjNDuiqyhHOxJ5qGp00JAvNhmSLOtbsRZ3DCddI7X3iucKRqYVMMbh9g+ILVOUdD/IQ18CbRqPkGeeiNkFAXR7NNxaWZo7sPX3YXz9D05yc64t2Xh9XvddrTK9wBZzS12Psom6qkEBxGAk1uy9ZWHTbVF7kKnkIpb8=
-  file: target/iZone.jar
+  file: build/libs/iZone-8.0.15-b${TRAVIS_BUILD_NUMBER}.jar
   on:
     repo: TryHardDood/iZone
-script: mvn clean package
+script: gradle build

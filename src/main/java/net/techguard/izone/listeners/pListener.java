@@ -42,6 +42,21 @@ public class pListener implements Listener {
 		}
 
 		Player    player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Settings  sett   = Settings.getSett(player);
 		ItemStack inHand = iZone.serverVersion.newerThan(Minecraft.Version.v1_9_R1) ? player.getInventory().getItemInMainHand() : player.getItemInHand();
 		if (inHand == null)
@@ -113,6 +128,22 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		Player   player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
+
 		Location from   = event.getFrom();
 		from = new Location(from.getWorld(), from.getBlockX(), from.getBlockY(), from.getBlockZ(), from.getYaw(), from.getPitch());
 		Location to = event.getTo();
@@ -202,6 +233,22 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player   player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
+
 		Location from   = event.getFrom();
 		from = new Location(from.getWorld(), from.getBlockX(), from.getBlockY(), from.getBlockZ(), from.getYaw(), from.getPitch());
 		Location to = event.getTo();
@@ -316,6 +363,21 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Item   item   = event.getItemDrop();
 		Zone   zone   = ZoneManager.getZone(item.getLocation());
 
@@ -328,6 +390,21 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Item   item   = event.getItem();
 		Zone   zone   = ZoneManager.getZone(item.getLocation());
 
@@ -341,6 +418,21 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Block  b      = event.getBlockClicked().getRelative(event.getBlockFace());
 		Zone   zone   = ZoneManager.getZone(b.getLocation());
 
@@ -354,6 +446,21 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerBucketFill(PlayerBucketFillEvent event) {
 		Player player = event.getPlayer();
+		if (ConfigManager.useAsWhiteList())
+		{
+			if (!ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+		else
+		{
+			if (ConfigManager.containsWorld(player.getWorld().getName()))
+			{
+				return;
+			}
+		}
+
 		Block  b      = event.getBlockClicked().getRelative(event.getBlockFace());
 		Zone   zone   = ZoneManager.getZone(b.getLocation());
 

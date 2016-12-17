@@ -1,13 +1,11 @@
 package net.techguard.izone.managers;
 
 import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.util.ParticleEffect;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.inventivetalent.particle.ParticleEffect;
-
-import java.util.Collections;
 
 /**
  * Class:
@@ -61,7 +59,7 @@ public class Visualizer {
 							System.out.println("ERROR! Invalid particles in iZone/config.yml");
 							return;
 						}
-						particleEffect.send(Collections.singleton(player), player.getLocation(), 0, 0, 0, 0, 1);
+						particleEffect.display((float)x, (float)y, (float)z, 0, 1, b.getLocation(), player);
 					}
 				}
 			}
