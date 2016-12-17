@@ -10,4 +10,3 @@ deploy:
   file: build/libs/iZone-8.0.15-b${TRAVIS_BUILD_NUMBER}.jar
   on:
     repo: TryHardDood/iZone
-script: gradle build
