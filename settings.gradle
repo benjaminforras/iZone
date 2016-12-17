@@ -1,1 +1,2 @@
 rootProject.name = 'iZone'
+rootProject.buildFileName = "iZone.jar"
