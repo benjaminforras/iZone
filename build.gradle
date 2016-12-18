@@ -24,6 +24,12 @@ repositories {
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
 }
+
+jar
+{
+	archiveName = "iZone.jar"
+}
+
 dependencies {
     compile group: 'org.spigotmc', name: 'spigot-api', version:'1.11-R0.1-SNAPSHOT'
     compile group: 'org.bukkit', name: 'bukkit', version:'1.11-R0.1-SNAPSHOT'
