@@ -173,7 +173,7 @@ public class pListener implements Listener {
 			if (fzone.hasFlag(Flags.FAREWELL))
 			{
 				String s = fzone.getFarewell();
-				player.sendMessage(ChatColor.GOLD + "" + ChatColor.GRAY + fzone.getName() + " > " + ChatColor.YELLOW + s);
+				player.sendMessage(ChatColor.GOLD + "" + ChatColor.GRAY + fzone.getName() + " > " + ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', s));
 			}
 			if ((fzone.hasFlag(Flags.GAMEMODE)) && (player.getServer().getDefaultGameMode() != player.getGameMode()))
 			{
@@ -203,7 +203,7 @@ public class pListener implements Listener {
 			if (tzone.hasFlag(Flags.WELCOME))
 			{
 				String s = tzone.getWelcome();
-				player.sendMessage(ChatColor.GOLD + "" + ChatColor.GRAY + tzone.getName() + " > " + ChatColor.YELLOW + s);
+				player.sendMessage(ChatColor.GOLD + "" + ChatColor.GRAY + tzone.getName() + " > " + ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', s));
 			}
 			if ((tzone.hasFlag(Flags.GAMEMODE)) && (tzone.getGamemode() != player.getGameMode()))
 			{
