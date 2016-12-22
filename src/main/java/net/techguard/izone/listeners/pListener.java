@@ -286,7 +286,7 @@ public class pListener implements Listener {
 			if (fzone.hasFlag(Flags.FAREWELL))
 			{
 				String s = fzone.getFarewell();
-				player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + fzone.getName() + " > " + ChatColor.YELLOW + s);
+				player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + fzone.getName() + " > " + ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', s));
 				if (iZone.serverVersion.newerThan(Minecraft.Version.v1_8_R1))
 				{
 					Title.sendTitle(player, 2, 20, 2, "", ChatColor.YELLOW + s);
@@ -325,7 +325,7 @@ public class pListener implements Listener {
 			if (tzone.hasFlag(Flags.WELCOME))
 			{
 				String s = tzone.getWelcome();
-				player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + tzone.getName() + " > " + ChatColor.YELLOW + s);
+				player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + tzone.getName() + " > " + ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', s));
 				if (iZone.serverVersion.newerThan(Minecraft.Version.v1_8_R1))
 				{
 					Title.sendTitle(player, 2, 20, 2, "", ChatColor.YELLOW + s);
