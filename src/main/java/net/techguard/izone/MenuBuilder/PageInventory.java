@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 /*****************************************************
  *              Created by TryHardDood on 2016. 10. 31..
@@ -68,7 +68,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 	public ItemStack getBackPage() {
 		if (backAPage == null)
 		{
-			backAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_menu_back")).build();
+			backAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + tl("gui_menu_back")).build();
 		}
 		return backAPage;
 	}
@@ -80,7 +80,7 @@ public final class PageInventory extends InventoryMenuBuilder {
 	public ItemStack getForwardsPage() {
 		if (forwardsAPage == null)
 		{
-			forwardsAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_menu_next")).build();
+			forwardsAPage = new ItemBuilder(Material.PAPER).setTitle(ChatColor.GREEN + "" + ChatColor.BOLD + tl("gui_menu_next")).build();
 		}
 		return forwardsAPage;
 	}

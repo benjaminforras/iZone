@@ -1,19 +1,20 @@
 package net.techguard.izone;
 
+import net.techguard.izone.Commands.CommandManager;
+import net.techguard.izone.Commands.iZoneCommand;
+import net.techguard.izone.Commands.zmodCommand;
+import net.techguard.izone.Configuration.*;
+import net.techguard.izone.Listeners.bListener;
+import net.techguard.izone.Listeners.eListener;
+import net.techguard.izone.Listeners.pListener;
+import net.techguard.izone.Listeners.wListener;
+import net.techguard.izone.Managers.HealthManager;
+import net.techguard.izone.Managers.VaultManager;
+import net.techguard.izone.Managers.ZoneManager;
 import net.techguard.izone.MenuBuilder.inventory.InventoryListener;
-import net.techguard.izone.commands.CommandManager;
-import net.techguard.izone.commands.iZoneCommand;
-import net.techguard.izone.commands.zmodCommand;
-import net.techguard.izone.configuration.*;
-import net.techguard.izone.listeners.bListener;
-import net.techguard.izone.listeners.eListener;
-import net.techguard.izone.listeners.pListener;
-import net.techguard.izone.listeners.wListener;
-import net.techguard.izone.managers.HealthManager;
-import net.techguard.izone.managers.VaultManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Utils.Localization.I18n;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,23 +25,39 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class iZone extends JavaPlugin {
-	public static  iZone             instance;
-	public static  Minecraft.Version serverVersion;
-	private static Configurable      mainConfig;
-	private static Configurable      disabledWorldsConfig;
-	private static Configurable       vaultConfig;
-	public         InventoryListener inventoryListener;
-	private        CommandManager    commandManager;
+	public static            iZone             instance;
+	public static            Minecraft.Version serverVersion;
+	private static           Configurable      mainConfig;
+	private static           Configurable      disabledWorldsConfig;
+	private static           Configurable      vaultConfig;
+	public                   InventoryListener inventoryListener;
+	private                  CommandManager    commandManager;
+	private static transient I18n              i18n;
 
 	public static String getPrefix() {
 		return ChatColor.GOLD + "" + ChatColor.BOLD + "iZone > " + ChatColor.GRAY;
+	}
+	public static I18n getI18n() {
+		return i18n;
+	}
+
+	@Override
+	public void onDisable()
+	{
+		if (i18n != null)
+		{
+			i18n.onDisable();
+		}
+
 	}
 
 	@Override
@@ -64,6 +81,9 @@ public class iZone extends JavaPlugin {
 
 		VaultManager.load(this);
 
+		i18n = new I18n(this);
+		i18n.onEnable();
+
 		mainConfig = Config.getConfig();
 		mainConfig.setup();
 
@@ -75,6 +95,7 @@ public class iZone extends JavaPlugin {
 
 		loadUpdate();
 		loadLanguageFile();
+
 
 		if (ConfigManager.getHealthListener())
 		{
@@ -142,37 +163,40 @@ public class iZone extends JavaPlugin {
 				allowed = allowed.substring(0, allowed.length() - 4);
 			}
 
-			player.sendMessage(getPrefix() + ChatColor.GREEN + phrase("zone_found"));
+			player.sendMessage(getPrefix() + ChatColor.GREEN + tl("zone_found"));
 			player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + "////////////// " + ChatColor.GOLD + "[" + zone.getName() + "]" + ChatColor.GRAY + "" + ChatColor.BOLD + " //////////////");
 			player.sendMessage(ChatColor.GRAY + "");
-			player.sendMessage(ChatColor.GRAY + phrase("word_flags") + ": " + ChatColor.AQUA + flags);
-			player.sendMessage(ChatColor.GRAY + phrase("word_allowed") + ": " + ChatColor.AQUA + allowed);
+			player.sendMessage(ChatColor.GRAY + tl("word_flags") + ": " + ChatColor.AQUA + flags);
+			player.sendMessage(ChatColor.GRAY + tl("word_allowed") + ": " + ChatColor.AQUA + allowed);
 		}
 		else
 		{
-			player.sendMessage(getPrefix() + ChatColor.RED + "" + ChatColor.BOLD + phrase("zone_not_found"));
+			player.sendMessage(getPrefix() + ChatColor.RED + "" + ChatColor.BOLD + tl("zone_not_found"));
 		}
 	}
 
 	public void loadLanguageFile() {
 
-		Locale locale = new Locale(ConfigManager.getLocale());
-		Phrases.getInstance().initialize(locale);
-		File overrides = new File(iZone.instance.getDataFolder(), "messages_en.properties");
-		if (overrides.exists())
+		String localeFileName = "messages_" + ConfigManager.getLocale() + ".properties";
+		File   langFile;
+		try
 		{
-			java.util.Properties overridesProps = new java.util.Properties();
-			try
+			langFile = new File(iZone.instance.getDataFolder(), localeFileName);
+			if (!langFile.exists())
 			{
-				overridesProps.load(new FileInputStream(overrides));
-				//overridesProps.load(new BufferedReader(new InputStreamReader(new FileInputStream(overrides), "UTF-8")));
-			} catch (IOException e)
-			{
-				e.printStackTrace();
+				iZone.instance.saveResource(localeFileName, false);
 			}
-			Phrases.getInstance().overrides(overridesProps);
+		} catch (IllegalArgumentException iaex)
+		{
+			langFile = new File(iZone.instance.getDataFolder(), "messages_" + "en" + ".properties");
+			if (!langFile.exists())
+			{
+				iZone.instance.saveResource("messages_" + "en" + ".properties", false);
+			}
+			ConfigManager.setLocale("en");
+			System.out.println("Wrong translation file setup, using \"en\"");
 		}
-		iZone.instance.getLogger().info("Loaded language: " + ConfigManager.getLocale());
+		iZone.getI18n().updateLocale(ConfigManager.getLocale());
 	}
 
 	public void reloadConfiguration() {

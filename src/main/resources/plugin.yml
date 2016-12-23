@@ -10,4 +10,4 @@ commands:
   izone:
     description: Prints current version
   zmod:
-    description: Prints all the 'iZone' zone commands
+    description: Prints all the 'iZone' zone Commands

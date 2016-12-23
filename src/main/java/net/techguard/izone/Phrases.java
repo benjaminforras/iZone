@@ -31,7 +31,7 @@ public class Phrases {
 		return instance;
 	}
 
-	public static String phrase(String key, Object... replacements) {
+	public static String tl(String key, Object... replacements) {
 		if (getInstance() == null)
 		{
 			return "";
