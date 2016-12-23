@@ -1,4 +1,4 @@
-package net.techguard.izone.commands;
+package net.techguard.izone.Commands;
 
 import net.milkbowl.vault.economy.Economy;
 import net.techguard.izone.MenuBuilder.ItemBuilder;
@@ -6,13 +6,13 @@ import net.techguard.izone.MenuBuilder.PageInventory;
 import net.techguard.izone.MenuBuilder.inventory.InventoryMenuBuilder;
 import net.techguard.izone.MenuBuilder.inventory.InventoryMenuListener;
 import net.techguard.izone.Variables;
-import net.techguard.izone.commands.zmod.*;
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Commands.zmod.*;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.VaultManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.VaultManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class zmodCommand extends BaseCommand {
 	private static zmodCommand instance;
@@ -63,12 +63,12 @@ public class zmodCommand extends BaseCommand {
 
 			if (item.getType() == Material.SIGN)
 			{
-				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle(phrase("gui_zone_management") + " - " + phrase("gui_flags"));
+				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle(tl("gui_zone_management") + " - " + tl("gui_flags"));
 
 				int i = 0;
 				for (Flags flag : zone.getAllFlags())
 				{
-					imb.withItem(i, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? phrase("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_off"))).build());
+					imb.withItem(i, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? tl("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + tl("gui_off"))).build());
 					i++;
 				}
 
@@ -77,7 +77,7 @@ public class zmodCommand extends BaseCommand {
 			}
 			else if (item.getType() == Material.SKULL_ITEM)
 			{
-				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle(phrase("gui_zone_management") + " - " + phrase("gui_allowed_players"));
+				InventoryMenuBuilder imb = new InventoryMenuBuilder(InventoryType.PLAYER).withTitle(tl("gui_zone_management") + " - " + tl("gui_allowed_players"));
 
 				int i = 0;
 				for (String member : zone.getAllowed())
@@ -86,7 +86,7 @@ public class zmodCommand extends BaseCommand {
 					{
 						continue;
 					}
-					imb.withItem(i, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + member).addLore(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_remove_member_lore")).build());
+					imb.withItem(i, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + member).addLore(ChatColor.RED + "" + ChatColor.BOLD + tl("gui_remove_member_lore")).build());
 					i++;
 				}
 
@@ -114,7 +114,7 @@ public class zmodCommand extends BaseCommand {
 				{
 					if (!player.hasPermission(Variables.PERMISSION_FLAGS + flag.toString()))
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("zone_flag_no_permission"));
+						player.sendMessage(iZone.getPrefix() + tl("zone_flag_no_permission"));
 						return;
 					}
 
@@ -129,28 +129,28 @@ public class zmodCommand extends BaseCommand {
 
 					if (flag.getName().equalsIgnoreCase("gamemode") && zone.hasFlag(flag))
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("flag_gamemode_default"));
-						player.sendMessage(iZone.getPrefix() + phrase("flag_gamemode_values"));
-						player.sendMessage(iZone.getPrefix() + phrase("flag_gamemode_help", "/zmod flag " + zone.getName() + " gamemode YourGamemode"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_gamemode_default"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_gamemode_values"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_gamemode_help", "/zmod flag " + zone.getName() + " gamemode YourGamemode"));
 						zone.setGamemode(GameMode.SURVIVAL);
 					}
 
 					if (flag.getName().equalsIgnoreCase("welcome") && zone.hasFlag(flag))
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("flag_welcome_default"));
-						player.sendMessage(iZone.getPrefix() + phrase("flag_welcome_help", "/zmod flag " + zone.getName() + " welcome YourMessage"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_welcome_default"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_welcome_help", "/zmod flag " + zone.getName() + " welcome YourMessage"));
 						zone.setWelcome("Welcome to my zone");
 					}
 
 					if (flag.getName().equalsIgnoreCase("farewell") && zone.hasFlag(flag))
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("flag_farewell_default"));
-						player.sendMessage(iZone.getPrefix() + phrase("flag_farewell_help", "/zmod flag " + zone.getName() + " farewell YourMessage"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_farewell_default"));
+						player.sendMessage(iZone.getPrefix() + tl("flag_farewell_help", "/zmod flag " + zone.getName() + " farewell YourMessage"));
 						zone.setFarewell("See you soon");
 					}
 
-					player.sendMessage(iZone.getPrefix() + phrase("flag_set", flag.getName(), (zone.hasFlag(flag) ? ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_off"))));
-					event.getInventory().setItem(event.getSlot(), new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? phrase("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_off"))).build());
+					player.sendMessage(iZone.getPrefix() + tl("flag_set", flag.getName(), (zone.hasFlag(flag) ? ChatColor.GREEN + "" + ChatColor.BOLD + tl("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + tl("gui_off"))));
+					event.getInventory().setItem(event.getSlot(), new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + flag.getName()).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + (zone.hasFlag(flag) ? tl("gui_on") : ChatColor.RED + "" + ChatColor.BOLD + tl("gui_off"))).build());
 
 					player.updateInventory();
 				}
@@ -179,18 +179,18 @@ public class zmodCommand extends BaseCommand {
 					}
 					else
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("notenough_money", vault.format(ConfigManager.getDisallowPlayerPrice())));
+						player.sendMessage(iZone.getPrefix() + tl("notenough_money", vault.format(ConfigManager.getDisallowPlayerPrice())));
 						return;
 					}
 				}
 				zone.Remove(target);
 				event.getInventory().setItem(event.getSlot(), new ItemStack(Material.AIR));
 				player.updateInventory();
-				player.sendMessage(iZone.getPrefix() + phrase("zone_removeuser", target));
+				player.sendMessage(iZone.getPrefix() + tl("zone_removeuser", target));
 			}
 			else
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_cantremoveuser"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_cantremoveuser"));
 			}
 		};
 	}
@@ -208,7 +208,7 @@ public class zmodCommand extends BaseCommand {
 		{
 			if (!ConfigManager.containsWorld(player.getWorld().getName()))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("world_disabled"));
+				player.sendMessage(iZone.getPrefix() + tl("world_disabled"));
 				return;
 			}
 		}
@@ -216,7 +216,7 @@ public class zmodCommand extends BaseCommand {
 		{
 			if (ConfigManager.containsWorld(player.getWorld().getName()))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("world_disabled"));
+				player.sendMessage(iZone.getPrefix() + tl("world_disabled"));
 				return;
 			}
 		}
@@ -231,7 +231,7 @@ public class zmodCommand extends BaseCommand {
 				items.add(new ItemBuilder(Variables.getMyHouseItem()).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + zones.get(i).getName()).addLore("§8", ChatColor.GRAY + "" + ChatColor.BOLD + "[LEFT CLICK]" + ChatColor.GREEN + " To manage the zone.", ChatColor.GRAY + "" + ChatColor.BOLD + "[RIGHT CLICK]" + ChatColor.GREEN + " To teleport to the zone border.").build());
 			}
 
-			PageInventory pageInventory = new PageInventory(phrase("gui_main_title"), items);
+			PageInventory pageInventory = new PageInventory(tl("gui_main_title"), items);
 			pageInventory.show(player);
 
 			pageInventory.onInteract((player1, action, event) ->
@@ -265,7 +265,7 @@ public class zmodCommand extends BaseCommand {
 					Location loc = zone.getTeleport();
 					if (loc == null)
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("zone_teleport_not_set"));
+						player.sendMessage(iZone.getPrefix() + tl("zone_teleport_not_set"));
 						return;
 					}
 
@@ -281,23 +281,23 @@ public class zmodCommand extends BaseCommand {
 					return;
 				}
 
-				InventoryMenuBuilder imb = new InventoryMenuBuilder(9, phrase("gui_zone_management"));
-				imb.withItem(0, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + phrase("gui_button_flags")).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_set_flag_lore")).build());
-				imb.withItem(4, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + phrase("gui_button_allowed_players")).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + phrase("gui_add_players_lore")).build());
+				InventoryMenuBuilder imb = new InventoryMenuBuilder(9, tl("gui_zone_management"));
+				imb.withItem(0, new ItemBuilder(Material.SIGN).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + tl("gui_button_flags")).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + tl("gui_set_flag_lore")).build());
+				imb.withItem(4, new ItemBuilder(Material.SKULL_ITEM, (short) 3).setTitle(ChatColor.WHITE + "" + ChatColor.BOLD + tl("gui_button_allowed_players")).addLore(ChatColor.GREEN + "" + ChatColor.BOLD + tl("gui_add_players_lore")).build());
 
 				if (iZone.serverVersion.newerThan(net.techguard.izone.Minecraft.Version.v1_8_R1))
 				{
-					imb.withItem(8, new ItemBuilder(Material.BARRIER).setTitle(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_button_delete_zone")).addLore(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_remove_zone")).build());
+					imb.withItem(8, new ItemBuilder(Material.BARRIER).setTitle(ChatColor.RED + "" + ChatColor.BOLD + tl("gui_button_delete_zone")).addLore(ChatColor.RED + "" + ChatColor.BOLD + tl("gui_remove_zone")).build());
 				}
 				else
 				{
-					imb.withItem(8, new ItemBuilder(Material.LAVA_BUCKET).setTitle(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_button_delete_zone")).addLore(ChatColor.RED + "" + ChatColor.BOLD + phrase("gui_remove_zone")).build());
+					imb.withItem(8, new ItemBuilder(Material.LAVA_BUCKET).setTitle(ChatColor.RED + "" + ChatColor.BOLD + tl("gui_button_delete_zone")).addLore(ChatColor.RED + "" + ChatColor.BOLD + tl("gui_remove_zone")).build());
 				}
 				imb.show(player);
 				imb.onInteract(settingsMenuListener, ClickType.LEFT);
 			}, ClickType.LEFT, ClickType.RIGHT);
 
-			player.sendMessage(iZone.getPrefix() + phrase("chat_help", "/zmod help"));
+			player.sendMessage(iZone.getPrefix() + tl("chat_help", "/zmod help"));
 		}
 		else
 		{
@@ -330,7 +330,7 @@ public class zmodCommand extends BaseCommand {
 					}
 					else
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("chat_nopermission"));
+						player.sendMessage(iZone.getPrefix() + tl("chat_nopermission"));
 					}
 				}
 			}
@@ -338,7 +338,7 @@ public class zmodCommand extends BaseCommand {
 	}
 
 	public void onSystemCommand(ConsoleCommandSender player, String[] cmd) {
-		player.sendMessage(phrase("only_ingame"));
+		player.sendMessage(tl("only_ingame"));
 	}
 
 	protected String[] getUsage() {

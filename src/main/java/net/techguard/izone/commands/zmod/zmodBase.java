@@ -1,4 +1,4 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.iZone;
 import org.bukkit.entity.Player;

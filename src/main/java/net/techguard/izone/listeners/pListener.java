@@ -1,15 +1,15 @@
-package net.techguard.izone.listeners;
+package net.techguard.izone.Listeners;
 
 import net.techguard.izone.Minecraft;
 import net.techguard.izone.Title;
 import net.techguard.izone.Variables;
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.InvManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Settings;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.InvManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Settings;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class pListener implements Listener {
 
@@ -84,7 +84,7 @@ public class pListener implements Listener {
 			else if ((player.hasPermission(Variables.PERMISSION_DEFINE)) && (inHand.getType() == Material.matchMaterial(ConfigManager.getDefineTool())))
 			{
 				sett.setBorder(2, clicked);
-				player.sendMessage(iZone.getPrefix() + phrase("zone_position_2_set", clicked.getBlockX(), clicked.getBlockY(), clicked.getBlockZ()));
+				player.sendMessage(iZone.getPrefix() + tl("zone_position_2_set", clicked.getBlockX(), clicked.getBlockY(), clicked.getBlockZ()));
 				event.setCancelled(true);
 			}
 		}
@@ -92,7 +92,7 @@ public class pListener implements Listener {
 		         (player.hasPermission(Variables.PERMISSION_DEFINE)) && (inHand.getType() == Material.matchMaterial(ConfigManager.getDefineTool())))
 		{
 			sett.setBorder(1, clicked);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_position_1_set", clicked.getBlockX(), clicked.getBlockY(), clicked.getBlockZ()));
+			player.sendMessage(iZone.getPrefix() + tl("zone_position_1_set", clicked.getBlockX(), clicked.getBlockY(), clicked.getBlockZ()));
 			event.setCancelled(true);
 		}
 
@@ -103,7 +103,7 @@ public class pListener implements Listener {
 			if (!ZoneManager.checkPermission(zone, player, Flags.INTERACT))
 			{
 				event.setCancelled(true);
-				player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			}
 
 			if (event.getAction() == Action.PHYSICAL && !ZoneManager.checkPermission(zone, player, Flags.PROTECTION))
@@ -115,7 +115,7 @@ public class pListener implements Listener {
 				}
 				if (block.getType() == Material.SOIL)
 				{
-					player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+					player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 					event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY);
 					event.setCancelled(true);
 
@@ -155,7 +155,7 @@ public class pListener implements Listener {
 		if ((tzone != fzone) && (tzone != null) && (tzone.hasFlag(Flags.RESTRICTION)) &&
 		    (!ZoneManager.checkPermission(tzone, player, Flags.RESTRICTION)))
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_restricted"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_restricted"));
 			event.setCancelled(true);
 			return;
 		}
@@ -163,7 +163,7 @@ public class pListener implements Listener {
 		if ((fzone != tzone) && (fzone != null) && (fzone.hasFlag(Flags.JAIL)) &&
 		    (!ZoneManager.checkPermission(fzone, player, Flags.JAIL)))
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			event.setCancelled(true);
 			return;
 		}
@@ -177,7 +177,7 @@ public class pListener implements Listener {
 			}
 			if ((fzone.hasFlag(Flags.GAMEMODE)) && (player.getServer().getDefaultGameMode() != player.getGameMode()))
 			{
-				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + fzone.getName() + "> " + ChatColor.GRAY + phrase("zone_gamemode"));
+				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + fzone.getName() + "> " + ChatColor.GRAY + tl("zone_gamemode"));
 				player.setGameMode(player.getServer().getDefaultGameMode());
 			}
 
@@ -207,7 +207,7 @@ public class pListener implements Listener {
 			}
 			if ((tzone.hasFlag(Flags.GAMEMODE)) && (tzone.getGamemode() != player.getGameMode()))
 			{
-				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + tzone.getName() + "> " + ChatColor.GRAY + phrase("zone_gamemode"));
+				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + tzone.getName() + "> " + ChatColor.GRAY + tl("zone_gamemode"));
 				player.setGameMode(tzone.getGamemode());
 			}
 
@@ -263,7 +263,7 @@ public class pListener implements Listener {
 
 		if (tzone != fzone && tzone != null && tzone.hasFlag(Flags.RESTRICTION) && !ZoneManager.checkPermission(tzone, player, Flags.RESTRICTION))
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			from.setX(from.getBlockX() + 0.5D);
 			from.setY(from.getBlockY() + 0.0D);
 			from.setZ(from.getBlockZ() + 0.5D);
@@ -273,7 +273,7 @@ public class pListener implements Listener {
 
 		if (fzone != tzone && fzone != null && fzone.hasFlag(Flags.JAIL) && !ZoneManager.checkPermission(fzone, player, Flags.JAIL))
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			from.setX(from.getBlockX() + 0.5D);
 			from.setY(from.getBlockY() + 0.0D);
 			from.setZ(from.getBlockZ() + 0.5D);
@@ -294,12 +294,12 @@ public class pListener implements Listener {
 			}
 			if (fzone.hasFlag(Flags.GAMEMODE) && player.getServer().getDefaultGameMode() != player.getGameMode())
 			{
-				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + fzone.getName() + "> " + ChatColor.GRAY + phrase("zone_gamemode"));
+				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + fzone.getName() + "> " + ChatColor.GRAY + tl("zone_gamemode"));
 				player.setGameMode(player.getServer().getDefaultGameMode());
 			}
 			if (fzone.hasFlag(Flags.FLY) && player.isFlying() && (!player.isOp() && (!player.hasPermission(Variables.PERMISSION_FLY + fzone.getName()) || !player.hasPermission(Variables.PERMISSION_FLY + "*"))))
 			{
-				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + fzone.getName() + "> " + ChatColor.GRAY + phrase("zone_fly"));
+				player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + fzone.getName() + "> " + ChatColor.GRAY + tl("zone_fly"));
 				player.setFlying(false);
 			}
 
@@ -350,12 +350,12 @@ public class pListener implements Listener {
 		}
 		if (tzone != null && tzone.hasFlag(Flags.GAMEMODE) && tzone.getGamemode() != player.getGameMode())
 		{
-			player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + tzone.getName() + "> " + ChatColor.GRAY + phrase("zone_gamemode"));
+			player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + tzone.getName() + "> " + ChatColor.GRAY + tl("zone_gamemode"));
 			player.setGameMode(tzone.getGamemode());
 		}
 		if (tzone != null && tzone.hasFlag(Flags.FLY) && player.isFlying() && (!player.isOp() || !player.hasPermission(Variables.PERMISSION_FLY + tzone.getName()) || !player.hasPermission(Variables.PERMISSION_FLY + "*")))
 		{
-			player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + tzone.getName() + "> " + ChatColor.GRAY + phrase("zone_fly"));
+			player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + tzone.getName() + "> " + ChatColor.GRAY + tl("zone_fly"));
 			player.setFlying(false);
 		}
 	}
@@ -439,7 +439,7 @@ public class pListener implements Listener {
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 		{
 			event.setCancelled(true);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
 	}
 
@@ -467,7 +467,7 @@ public class pListener implements Listener {
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 		{
 			event.setCancelled(true);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
 	}
 }

@@ -1,10 +1,10 @@
-package net.techguard.izone.listeners;
+package net.techguard.izone.Listeners;
 
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -21,7 +21,7 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class bListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -48,7 +48,7 @@ public class bListener implements Listener {
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 		{
 			event.setCancelled(true);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
 	}
 
@@ -87,7 +87,7 @@ public class bListener implements Listener {
 					if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 					{
 						event.setCancelled(true);
-						player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+						player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 					}
 					break;
 				}
@@ -97,7 +97,7 @@ public class bListener implements Listener {
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 		{
 			event.setCancelled(true);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
 	}
 
@@ -303,7 +303,7 @@ public class bListener implements Listener {
 				}
 				if (event.isCancelled())
 				{
-					player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+					player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 				}
 			}
 			else if (zone.hasFlag(Flags.FIRE))

@@ -1,12 +1,12 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
 import net.techguard.izone.iZone;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class PvPManager {
 
@@ -22,7 +22,7 @@ public class PvPManager {
 		Zone attack_zone = ZoneManager.getZone(damager.getLocation());
 		if (((defend_zone != null) && (defend_zone.hasFlag(Flags.PVP))) || ((attack_zone != null) && (attack_zone.hasFlag(Flags.PVP))))
 		{
-			damager.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("pvp_disabled"));
+			damager.sendMessage(iZone.getPrefix() + ChatColor.RED + tl("pvp_disabled"));
 			return true;
 		}
 		return false;

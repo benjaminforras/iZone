@@ -1,7 +1,7 @@
-package net.techguard.izone.zones;
+package net.techguard.izone.Zones;
 
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
+import net.techguard.izone.Managers.ZoneManager;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;

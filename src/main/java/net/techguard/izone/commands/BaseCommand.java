@@ -1,4 +1,4 @@
-package net.techguard.izone.commands;
+package net.techguard.izone.Commands;
 
 import net.techguard.izone.iZone;
 import org.bukkit.command.ConsoleCommandSender;

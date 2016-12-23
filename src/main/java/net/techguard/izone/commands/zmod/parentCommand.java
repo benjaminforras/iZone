@@ -1,12 +1,12 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Variables;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.entity.Player;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class parentCommand extends zmodBase {
 	public parentCommand(iZone instance) {
@@ -23,7 +23,7 @@ public class parentCommand extends zmodBase {
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_not_a_zone", cmd[2]));
+			player.sendMessage(iZone.getPrefix() + tl("zone_not_a_zone", cmd[2]));
 		}
 		if (ZoneManager.getZone(cmd[3]) != null)
 		{
@@ -31,18 +31,18 @@ public class parentCommand extends zmodBase {
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_not_a_zone", cmd[3]));
+			player.sendMessage(iZone.getPrefix() + tl("zone_not_a_zone", cmd[3]));
 		}
 
 		if ((child != null) && (parent != null))
 		{
 			if ((!child.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER)))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_notowner"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_notowner"));
 				return;
 			}
 			child.setParent(parent.getName());
-			player.sendMessage(iZone.getPrefix() + phrase("zone_parent_set", parent.getName(), child.getName()));
+			player.sendMessage(iZone.getPrefix() + tl("zone_parent_set", parent.getName(), child.getName()));
 		}
 	}
 

@@ -1,16 +1,16 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Variables;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.Iterator;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class infoCommand extends zmodBase {
 	public infoCommand(iZone instance) {
@@ -43,10 +43,10 @@ public class infoCommand extends zmodBase {
 				allowed = allowed.substring(0, allowed.length() - 4);
 			}
 
-			player.sendMessage(iZone.getPrefix() + ChatColor.GREEN + phrase("zone_found"));
+			player.sendMessage(iZone.getPrefix() + ChatColor.GREEN + tl("zone_found"));
 			player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + "////////////// " + ChatColor.GOLD + "[" + zone.getName() + "]" + ChatColor.GRAY + "" + ChatColor.BOLD + " //////////////");
-			player.sendMessage(ChatColor.GRAY + phrase("word_flags") + ": " + ChatColor.AQUA + flags);
-			player.sendMessage(ChatColor.GRAY + phrase("word_allowed") + ": " + ChatColor.AQUA + allowed);
+			player.sendMessage(ChatColor.GRAY + tl("word_flags") + ": " + ChatColor.AQUA + flags);
+			player.sendMessage(ChatColor.GRAY + tl("word_allowed") + ": " + ChatColor.AQUA + allowed);
 		}
 		else
 		{

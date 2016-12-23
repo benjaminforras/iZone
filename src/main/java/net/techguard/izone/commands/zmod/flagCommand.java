@@ -1,10 +1,10 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Variables;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class flagCommand extends zmodBase {
 	public flagCommand(iZone instance) {
@@ -31,7 +31,7 @@ public class flagCommand extends zmodBase {
 			Zone zone = ZoneManager.getZone(name);
 			if ((!zone.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER)))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_notowner"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_notowner"));
 				return;
 			}
 			String text = "";
@@ -53,7 +53,7 @@ public class flagCommand extends zmodBase {
 				{
 					if (!player.hasPermission(Variables.PERMISSION_FLAGS + flag2.toString()))
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("zone_flag_no_permission"));
+						player.sendMessage(iZone.getPrefix() + tl("zone_flag_no_permission"));
 						return;
 					}
 					if ((flag2 == Flags.WELCOME) || (flag2 == Flags.FAREWELL))
@@ -68,7 +68,7 @@ public class flagCommand extends zmodBase {
 							{
 								zone.setFarewell(text);
 							}
-							player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data"));
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data"));
 							if (zone.hasFlag(flag2))
 							{
 								return;
@@ -76,7 +76,7 @@ public class flagCommand extends zmodBase {
 						}
 						else if (!zone.hasFlag(flag2))
 						{
-							player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_hint"));
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint"));
 						}
 					}
 					short data;
@@ -95,11 +95,11 @@ public class flagCommand extends zmodBase {
 									Material type = item.getType();
 									data = item.getData().getData();
 									amount = item.getAmount();
-									player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_add", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
 								}
 								else
 								{
-									player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_error", text));
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
 							}
 							else if (text.startsWith("- "))
@@ -112,22 +112,22 @@ public class flagCommand extends zmodBase {
 									Material type = item.getType();
 									data = item.getData().getData();
 									amount = item.getAmount();
-									player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_remove", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
 								}
 								else
 								{
-									player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_error", text));
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
 							}
 							else
 							{
-								player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_error2"));
+								player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error2"));
 							}
 							return;
 						}
 						if (!zone.hasFlag(flag2))
 						{
-							player.sendMessage(iZone.getPrefix() + phrase("zone_flag_data_hint2"));
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint2"));
 						}
 					}
 					if (flag2 == Flags.GAMEMODE)
@@ -148,7 +148,7 @@ public class flagCommand extends zmodBase {
 							if (gm != null)
 							{
 								zone.setGamemode(gm);
-								player.sendMessage(iZone.getPrefix() + phrase("zone_flag_gamemode_change", gm.name().toLowerCase()));
+								player.sendMessage(iZone.getPrefix() + tl("zone_flag_gamemode_change", gm.name().toLowerCase()));
 								if (zone.hasFlag(flag2))
 								{
 									return;
@@ -156,12 +156,12 @@ public class flagCommand extends zmodBase {
 							}
 							else
 							{
-								player.sendMessage(iZone.getPrefix() + phrase("zone_flag_gamemode_error"));
+								player.sendMessage(iZone.getPrefix() + tl("zone_flag_gamemode_error"));
 							}
 						}
 						else if (!zone.hasFlag(flag2))
 						{
-							player.sendMessage(iZone.getPrefix() + phrase("zone_flag_gamemode_hint"));
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_gamemode_hint"));
 						}
 					}
 
@@ -171,30 +171,30 @@ public class flagCommand extends zmodBase {
 
 						Border border = new Border(zone.getBorder1().toVector(), zone.getBorder2().toVector());
 						if(!border.contains(player.getLocation())) {
-							player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("flag_teleport_not_in_zone"));
+							player.sendMessage(iZone.getPrefix() + ChatColor.RED + tl("flag_teleport_not_in_zone"));
 							return;
 						}
 
 						if(isSafeLocation(location))
 						{
 							zone.setTeleport(location);
-							player.sendMessage(iZone.getPrefix() + ChatColor.GOLD + phrase("flag_teleport_set"));
+							player.sendMessage(iZone.getPrefix() + ChatColor.GOLD + tl("flag_teleport_set"));
 							if (zone.hasFlag(flag2))
 							{
 								return;
 							}
 						}
-						else player.sendMessage(iZone.getPrefix() + ChatColor.RED + phrase("flag_teleport_notsafe"));
+						else player.sendMessage(iZone.getPrefix() + ChatColor.RED + tl("flag_teleport_notsafe"));
 					}
 
 					zone.setFlag(flag2.getId(), !zone.hasFlag(flag2));
-					player.sendMessage(iZone.getPrefix() + phrase("flag_set", flag2.getName(), (zone.hasFlag(flag2) ? ChatColor.GREEN + "" + ChatColor.BOLD + "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")));
+					player.sendMessage(iZone.getPrefix() + tl("flag_set", flag2.getName(), (zone.hasFlag(flag2) ? ChatColor.GREEN + "" + ChatColor.BOLD + "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")));
 				}
 			}
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_not_found"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_not_found"));
 		}
 	}
 

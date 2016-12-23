@@ -1,9 +1,9 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
-import net.techguard.izone.configuration.ConfigManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Settings;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Configuration.ConfigManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Settings;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

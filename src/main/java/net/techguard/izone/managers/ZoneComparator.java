@@ -1,6 +1,6 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Zones.Zone;
 
 import java.util.Comparator;
 

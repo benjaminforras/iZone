@@ -1,16 +1,16 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.milkbowl.vault.economy.Economy;
 import net.techguard.izone.Variables;
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.VaultManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.VaultManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class disallowCommand extends zmodBase {
 	public disallowCommand(iZone instance) {
@@ -26,7 +26,7 @@ public class disallowCommand extends zmodBase {
 			Zone zone = ZoneManager.getZone(name);
 			if ((!zone.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER)))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_notowner"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_notowner"));
 				return;
 			}
 			if (zone.getAllowed().contains(target))
@@ -41,21 +41,21 @@ public class disallowCommand extends zmodBase {
 					}
 					else
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("notenough_money", vault.format(ConfigManager.getDisallowPlayerPrice())));
+						player.sendMessage(iZone.getPrefix() + tl("notenough_money", vault.format(ConfigManager.getDisallowPlayerPrice())));
 						return;
 					}
 				}
 				zone.Remove(target);
-				player.sendMessage(iZone.getPrefix() + phrase("zone_removeuser", target));
+				player.sendMessage(iZone.getPrefix() + tl("zone_removeuser", target));
 			}
 			else
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_cantremoveuser"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_cantremoveuser"));
 			}
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_not_found"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_not_found"));
 		}
 	}
 

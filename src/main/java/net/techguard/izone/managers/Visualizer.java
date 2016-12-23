@@ -1,6 +1,6 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.util.ParticleEffect;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -1,4 +1,4 @@
-package net.techguard.izone.zones;
+package net.techguard.izone.Zones;
 
 public enum Flags {
 	PROTECTION,

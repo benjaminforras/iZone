@@ -1,10 +1,10 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
 import net.techguard.izone.Minecraft;
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

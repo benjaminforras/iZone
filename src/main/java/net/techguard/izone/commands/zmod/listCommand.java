@@ -1,9 +1,9 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Variables;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

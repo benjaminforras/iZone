@@ -1,9 +1,9 @@
-package net.techguard.izone.listeners;
+package net.techguard.izone.Listeners;
 
-import net.techguard.izone.configuration.ConfigManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Configuration.ConfigManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.entity.LightningStrike;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

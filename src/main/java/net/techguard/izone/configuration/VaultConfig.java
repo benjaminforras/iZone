@@ -1,4 +1,4 @@
-package net.techguard.izone.configuration;
+package net.techguard.izone.Configuration;
 
 import net.techguard.izone.iZone;
 import org.bukkit.configuration.file.YamlConfiguration;

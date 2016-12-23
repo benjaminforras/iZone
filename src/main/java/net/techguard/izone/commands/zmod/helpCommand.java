@@ -1,7 +1,7 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Variables;
-import net.techguard.izone.commands.zmodCommand;
+import net.techguard.izone.Commands.zmodCommand;
 import net.techguard.izone.iZone;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -49,7 +49,7 @@ public class helpCommand extends zmodBase {
 	}
 
 	public String[] getInfo() {
-		return new String[]{"help", "Prints a list of commands"};
+		return new String[]{"help", "Prints a list of Commands"};
 	}
 
 	public String getError(int i) {

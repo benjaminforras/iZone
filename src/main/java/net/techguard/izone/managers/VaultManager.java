@@ -1,4 +1,4 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
 import net.milkbowl.vault.economy.Economy;
 import net.techguard.izone.iZone;

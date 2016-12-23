@@ -1,20 +1,20 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.milkbowl.vault.economy.Economy;
 import net.techguard.izone.Variables;
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.VaultManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Settings;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.VaultManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Settings;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class createCommand extends zmodBase {
 	public createCommand(iZone instance) {
@@ -30,8 +30,8 @@ public class createCommand extends zmodBase {
 			Location[] c = {settings.getBorder1(), settings.getBorder2()};
 			if ((c[0] == null) || (c[1] == null))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_create_border"));
-				player.sendMessage(iZone.getPrefix() + phrase("zone_create_hint", Material.getMaterial(ConfigManager.getDefineTool()).name()));
+				player.sendMessage(iZone.getPrefix() + tl("zone_create_border"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_create_hint", Material.getMaterial(ConfigManager.getDefineTool()).name()));
 				return;
 			}
 
@@ -44,12 +44,12 @@ public class createCommand extends zmodBase {
 					if (permission.equals("max"))
 					{
 						String size = settings.getOwnedZones() + "/" + settings.getMaxZones();
-						player.sendMessage(iZone.getPrefix() + phrase("zone_create_many", size));
+						player.sendMessage(iZone.getPrefix() + tl("zone_create_many", size));
 					}
 					if (permission.startsWith("size"))
 					{
 						Vector maxSize = settings.getMaxSize();
-						player.sendMessage(iZone.getPrefix() + phrase("zone_create_big", permission.split(":")[1], maxSize.getX(), maxSize.getY(), maxSize.getZ()));
+						player.sendMessage(iZone.getPrefix() + tl("zone_create_big", permission.split(":")[1], maxSize.getX(), maxSize.getY(), maxSize.getZ()));
 					}
 					return;
 				}
@@ -65,23 +65,23 @@ public class createCommand extends zmodBase {
 				}
 				else
 				{
-					player.sendMessage(iZone.getPrefix() + phrase("notenough_money", vault.format(ConfigManager.getCreateZonePrice())));
+					player.sendMessage(iZone.getPrefix() + tl("notenough_money", vault.format(ConfigManager.getCreateZonePrice())));
 					return;
 				}
 			}
 			if (ZoneManager.checkZoneInside(c))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_create_error"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_create_error"));
 				return;
 			}
 			Zone zone = ZoneManager.add(name, c);
 			zone.Add("o:" + player.getName());
 
-			player.sendMessage(iZone.getPrefix() + phrase("zone_create_success", zone.getName()));
+			player.sendMessage(iZone.getPrefix() + tl("zone_create_success", zone.getName()));
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_create_error2"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_create_error2"));
 		}
 	}
 

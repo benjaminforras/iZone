@@ -1,8 +1,8 @@
-package net.techguard.izone.configuration;
+package net.techguard.izone.Configuration;
 
 import net.techguard.izone.Variables;
 import net.techguard.izone.iZone;
-import net.techguard.izone.zones.Flags;
+import net.techguard.izone.Zones.Flags;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.Vector;

@@ -1,4 +1,4 @@
-package net.techguard.izone.managers;
+package net.techguard.izone.Managers;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;

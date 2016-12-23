@@ -1,16 +1,16 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Variables;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Settings;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Settings;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class expandCommand extends zmodBase {
 	public expandCommand(iZone instance) {
@@ -25,7 +25,7 @@ public class expandCommand extends zmodBase {
 			Zone zone = ZoneManager.getZone(name);
 			if ((!zone.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER)))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_notowner"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_notowner"));
 				return;
 			}
 			BlockFace  dir          = BlockFace.SELF;
@@ -116,16 +116,16 @@ public class expandCommand extends zmodBase {
 			if (permission.startsWith("size"))
 			{
 				Vector maxSize = Settings.getSett(player).getMaxSize();
-				player.sendMessage(iZone.getPrefix() + phrase("zone_expand_big", permission.split(":")[1], (int) maxSize.getX(), (int) maxSize.getY(), (int) maxSize.getZ()));
+				player.sendMessage(iZone.getPrefix() + tl("zone_expand_big", permission.split(":")[1], (int) maxSize.getX(), (int) maxSize.getY(), (int) maxSize.getZ()));
 				return;
 			}
 			zone.setBorder(1, newerBorders[0]);
 			zone.setBorder(2, newerBorders[1]);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_expand_success", zone.getName(), size, dir));
+			player.sendMessage(iZone.getPrefix() + tl("zone_expand_success", zone.getName(), size, dir));
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_not_found"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_not_found"));
 		}
 	}
 

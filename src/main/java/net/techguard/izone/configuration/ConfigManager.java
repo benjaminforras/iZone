@@ -1,6 +1,6 @@
-package net.techguard.izone.configuration;
+package net.techguard.izone.Configuration;
 
-import net.techguard.izone.zones.Flags;
+import net.techguard.izone.Zones.Flags;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
@@ -79,6 +79,10 @@ public class ConfigManager {
 
 	public static String getLocale() {
 		return mainConfig.get().getString("locale", "en");
+	}
+
+	public static void setLocale(String locale) {
+		mainConfig.get().set("locale", locale);
 	}
 
 	public static boolean getHealthListener() {

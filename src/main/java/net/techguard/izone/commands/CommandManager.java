@@ -1,4 +1,4 @@
-package net.techguard.izone.commands;
+package net.techguard.izone.Commands;
 
 import net.techguard.izone.iZone;
 import org.bukkit.command.CommandSender;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class CommandManager {
 	private final List<BaseCommand> commands;
@@ -60,7 +60,7 @@ public class CommandManager {
 				return true;
 			} catch (Exception e)
 			{
-				sender.sendMessage(iZone.getPrefix() + phrase("chat_error"));
+				sender.sendMessage(iZone.getPrefix() + tl("chat_error"));
 				e.printStackTrace();
 			}
 		}

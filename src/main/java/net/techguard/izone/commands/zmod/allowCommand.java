@@ -1,16 +1,16 @@
-package net.techguard.izone.commands.zmod;
+package net.techguard.izone.Commands.zmod;
 
 import net.milkbowl.vault.economy.Economy;
 import net.techguard.izone.Variables;
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.VaultManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.VaultManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class allowCommand extends zmodBase {
 	public allowCommand(iZone instance) {
@@ -26,7 +26,7 @@ public class allowCommand extends zmodBase {
 			Zone zone = ZoneManager.getZone(name);
 			if ((!zone.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER)))
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_notowner"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_notowner"));
 				return;
 			}
 			if (!zone.getAllowed().contains(target))
@@ -41,21 +41,21 @@ public class allowCommand extends zmodBase {
 					}
 					else
 					{
-						player.sendMessage(iZone.getPrefix() + phrase("notenough_money", vault.format(ConfigManager.getAllowPlayerPrice())));
+						player.sendMessage(iZone.getPrefix() + tl("notenough_money", vault.format(ConfigManager.getAllowPlayerPrice())));
 						return;
 					}
 				}
 				zone.Add(target);
-				player.sendMessage(iZone.getPrefix() + phrase("zone_adduser", player));
+				player.sendMessage(iZone.getPrefix() + tl("zone_adduser", player));
 			}
 			else
 			{
-				player.sendMessage(iZone.getPrefix() + phrase("zone_cantadduser"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_cantadduser"));
 			}
 		}
 		else
 		{
-			player.sendMessage(iZone.getPrefix() + phrase("zone_not_found"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_not_found"));
 		}
 	}
 

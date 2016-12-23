@@ -1,11 +1,11 @@
-package net.techguard.izone.listeners;
+package net.techguard.izone.Listeners;
 
-import net.techguard.izone.configuration.ConfigManager;
+import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
-import net.techguard.izone.managers.PvPManager;
-import net.techguard.izone.managers.ZoneManager;
-import net.techguard.izone.zones.Flags;
-import net.techguard.izone.zones.Zone;
+import net.techguard.izone.Managers.PvPManager;
+import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Zones.Flags;
+import net.techguard.izone.Zones.Zone;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import static net.techguard.izone.Phrases.phrase;
+import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class eListener implements Listener {
 	private final HashMap<String, ItemStack[][]> safeDeath = new HashMap<>();
@@ -259,7 +259,7 @@ public class eListener implements Listener {
 					{
 						Player pDmg = (Player) damager;
 						damagerIsOp = ZoneManager.checkPermission(zone, pDmg, Flags.PROTECTION);
-						if (!damagerIsOp) pDmg.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+						if (!damagerIsOp) pDmg.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 					}
 					if (!damagerIsOp)
 					{
@@ -352,7 +352,7 @@ public class eListener implements Listener {
 			if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 			{
 				event.setCancelled(true);
-				player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			}
 		}
 		else if ((zone != null) && (zone.hasFlag(Flags.PROTECTION)))
@@ -384,7 +384,7 @@ public class eListener implements Listener {
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 		{
 			event.setCancelled(true);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
 	}
 
@@ -417,7 +417,7 @@ public class eListener implements Listener {
 			if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 			{
 				event.setCancelled(true);
-				player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+				player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			}
 		}
 	}
@@ -449,7 +449,7 @@ public class eListener implements Listener {
 		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
 		{
 			event.setCancelled(true);
-			player.sendMessage(iZone.getPrefix() + phrase("zone_protected"));
+			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
 	}
 
