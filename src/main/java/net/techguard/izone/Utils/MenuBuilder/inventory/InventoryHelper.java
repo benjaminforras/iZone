@@ -26,10 +26,10 @@
  *  either expressed or implied, of anybody else.
  */
 
-package net.techguard.izone.MenuBuilder.inventory;
+package net.techguard.izone.Utils.MenuBuilder.inventory;
 
-import net.techguard.izone.MenuBuilder.util.AccessUtil;
-import net.techguard.izone.MenuBuilder.util.Reflection;
+import net.techguard.izone.Utils.MenuBuilder.util.AccessUtil;
+import net.techguard.izone.Utils.MenuBuilder.util.Reflection;
 import org.bukkit.inventory.Inventory;
 
 public class InventoryHelper {

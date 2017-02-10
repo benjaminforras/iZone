@@ -26,7 +26,7 @@
  *  either expressed or implied, of anybody else.
  */
 
-package net.techguard.izone.MenuBuilder.util;
+package net.techguard.izone.Utils.MenuBuilder.util;
 
 import java.lang.reflect.Field;
 

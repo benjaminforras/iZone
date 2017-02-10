@@ -26,7 +26,7 @@
  *  either expressed or implied, of anybody else.
  */
 
-package net.techguard.izone.MenuBuilder.inventory;
+package net.techguard.izone.Utils.MenuBuilder.inventory;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 

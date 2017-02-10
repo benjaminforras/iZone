@@ -26,9 +26,9 @@
  *  either expressed or implied, of anybody else.
  */
 
-package net.techguard.izone.MenuBuilder.inventory;
+package net.techguard.izone.Utils.MenuBuilder.inventory;
 
-import net.techguard.izone.MenuBuilder.MenuBuilder;
+import net.techguard.izone.Utils.MenuBuilder.MenuBuilder;
 import net.techguard.izone.iZone;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
