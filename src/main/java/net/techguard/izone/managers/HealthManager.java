@@ -1,6 +1,5 @@
 package net.techguard.izone.Managers;
 
-import net.techguard.izone.Minecraft;
 import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
 import net.techguard.izone.Zones.Flags;
@@ -9,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.inventivetalent.reflection.minecraft.Minecraft;
 
 public class HealthManager implements Runnable {
 
@@ -50,7 +50,7 @@ public class HealthManager implements Runnable {
 				{
 					p2.damage(ConfigManager.getHurtingAmount());
 
-					if (iZone.serverVersion.newerThan(Minecraft.Version.v1_8_R1))
+					if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_8_R1))
 					{
 						p2.playSound(p2.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1, 0);
 					}

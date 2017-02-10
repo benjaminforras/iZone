@@ -156,12 +156,10 @@ public class ZoneManager {
 	public static String checkSizePermission(Player player, Location[] border) {
 		Settings sett = Settings.getSett(player);
 
-		Location min = new Location(border[0].getWorld(), Math.min(border[0].getX(), border[1].getX()), Math.min(border[0].getY(), border[1].getY()), Math.min(border[0].getZ(), border[1].getZ()));
-		Location max = new Location(border[1].getWorld(), Math.max(border[0].getX(), border[1].getX()), Math.max(border[0].getY(), border[1].getY()), Math.max(border[0].getZ(), border[1].getZ()));
+		int sizeX = Math.abs(Math.abs(border[0].getBlockX()) - Math.abs(border[1].getBlockX()));
+		int sizeZ = Math.abs(Math.abs(border[0].getBlockY()) - Math.abs(border[1].getBlockY()));
+		int sizeY = Math.abs(Math.abs(border[0].getBlockZ()) - Math.abs(border[1].getBlockZ()));
 
-		int    sizeX   = max.getBlockX() - min.getBlockX() + 1;
-		int    sizeZ   = max.getBlockZ() - min.getBlockZ() + 1;
-		int    sizeY   = max.getBlockY() - min.getBlockY() + 1;
 		Vector maxSize = sett.getMaxSize();
 
 		if (((sizeX > maxSize.getX()) && (maxSize.getX() != -1.0D)) ||

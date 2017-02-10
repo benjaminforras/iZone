@@ -1,7 +1,7 @@
-package net.techguard.izone.MenuBuilder;
+package net.techguard.izone.Utils.MenuBuilder;
 
 import net.md_5.bungee.api.ChatColor;
-import net.techguard.izone.MenuBuilder.inventory.InventoryMenuBuilder;
+import net.techguard.izone.Utils.MenuBuilder.inventory.InventoryMenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

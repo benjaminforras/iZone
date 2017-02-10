@@ -53,6 +53,21 @@ public class ConfigManager {
 	 * Main
 	 */
 
+	public static Integer getTitleFadeIn()
+	{
+		return mainConfig.get().getInt("messages.title.fadeIn", 2);
+	}
+
+	public static Integer getTitleStay()
+	{
+		return mainConfig.get().getInt("messages.title.stay", 20);
+	}
+
+	public static Integer getTitleFadeOut()
+	{
+		return mainConfig.get().getInt("messages.title.fadeOut", 2);
+	}
+
 	public static String getCheckTool() {
 		return mainConfig.get().getString("tools.check", Material.WOOD_SWORD.toString());
 	}

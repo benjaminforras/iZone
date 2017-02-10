@@ -157,6 +157,10 @@ public class Config implements Configurable {
 
 		get().set("restriction.zone.-1", "izone.zone.max-zone.unlimited");
 		get().set("restriction.zone.3", "izone.zone.max-zone.1");
+
+		get().set("messages.title.fadeIn", 2);
+		get().set("messages.title.stay", 20);
+		get().set("messages.title.fadeOut", 2);
 	}
 
 	@Override

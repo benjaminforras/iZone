@@ -2,10 +2,8 @@ package net.techguard.izone.Configuration;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-/*****************************************************
- *              Created by TryHardDood on 2016. 11. 04..
- ****************************************************/
 public interface Configurable {
+
 
 	void setup();
 

@@ -7,6 +7,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,14 +31,17 @@ public class Zone {
 	private String            farewell     = "";
 	private GameMode          gamemode     = GameMode.SURVIVAL;
 	private boolean           cansave      = true;
-	private ArrayList<String> allowed      = new ArrayList<>();
+	private ArrayList<String> allowed;
+	private HashMap<Flags, ArrayList<PotionEffect>> effects;
 	private String            parent       = "";
 	private Location location;
 
 	public Zone(String s) {
 		this.name = s;
 		this.saveFile = YamlConfiguration.loadConfiguration(getSaveFile());
+		this.allowed = new ArrayList<>();
 		this.inventory = new HashMap<>();
+		this.effects = new HashMap<>();
 	}
 
 	public String getName() {
@@ -70,6 +75,14 @@ public class Zone {
 			return this.inventory.get(a);
 		}
 		return new ArrayList<ItemStack>();
+	}
+
+	public ArrayList<PotionEffect> getEffects(Flags a) {
+		if (this.effects.containsKey(a))
+		{
+			return this.effects.get(a);
+		}
+		return new ArrayList<PotionEffect>();
 	}
 
 	public ArrayList<String> getAllowed() {
@@ -246,6 +259,15 @@ public class Zone {
 		saveInventory(a);
 	}
 
+	public void addEffect(Flags a, PotionEffect b) {
+		if (!this.effects.containsKey(a))
+		{
+			this.effects.put(a, new ArrayList<>());
+		}
+		this.effects.get(a).add(b);
+		saveEffects(a);
+	}
+
 	public void removeInventory(Flags a, ItemStack b) {
 		if (this.inventory.containsKey(a) && this.inventory.get(a).contains(b))
 		{
@@ -253,6 +275,15 @@ public class Zone {
 		}
 
 		saveInventory(a);
+	}
+
+	public void removeEffect(Flags a, PotionEffect b) {
+		if (this.effects.containsKey(a) && this.effects.get(a).contains(b))
+		{
+			this.effects.get(a).remove(b);
+		}
+
+		saveEffects(a);
 	}
 
 	public void saveInventory(Flags a) {
@@ -270,6 +301,23 @@ public class Zone {
 			}
 		}
 		setProperty("inventory." + a.toString(), items);
+	}
+
+	public void saveEffects(Flags a) {
+		if (this.effects.get(a) == null)
+		{
+			return;
+		}
+		List<String> items = new ArrayList<>();
+
+		for (PotionEffect effect : this.effects.get(a))
+		{
+			if (effect != null)
+			{
+				items.add("(" + effect.getType() + ", " + effect.getDuration() + ", " + effect.getAmplifier() + ")");
+			}
+		}
+		setProperty("effects." + a.toString(), items);
 	}
 
 	public boolean Add(String a) {

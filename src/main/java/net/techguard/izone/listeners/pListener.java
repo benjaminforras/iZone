@@ -1,7 +1,7 @@
 package net.techguard.izone.Listeners;
 
-import net.techguard.izone.Minecraft;
-import net.techguard.izone.Title;
+import com.avaje.ebeaninternal.server.cluster.mcast.MessageAck;
+import net.techguard.izone.Utils.MessagesAPI;
 import net.techguard.izone.Variables;
 import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.iZone;
@@ -23,6 +23,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.inventivetalent.reflection.minecraft.Minecraft;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -36,7 +38,7 @@ public class pListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if (iZone.serverVersion.newerThan(Minecraft.Version.v1_9_R1) && event.getHand() != EquipmentSlot.HAND)
+		if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1) && event.getHand() != EquipmentSlot.HAND)
 		{
 			return;
 		}
@@ -58,7 +60,7 @@ public class pListener implements Listener {
 		}
 
 		Settings  sett   = Settings.getSett(player);
-		ItemStack inHand = iZone.serverVersion.newerThan(Minecraft.Version.v1_9_R1) ? player.getInventory().getItemInMainHand() : player.getItemInHand();
+		ItemStack inHand = Minecraft.VERSION.newerThan(Minecraft.Version.v1_9_R1) ? player.getInventory().getItemInMainHand() : player.getItemInHand();
 		if (inHand == null)
 		{
 			return;
@@ -197,6 +199,14 @@ public class pListener implements Listener {
 					InvManager.removeFromInventory(player.getInventory(), item);
 				}
 			}
+			if (fzone.hasFlag(Flags.EFFECT_OUT))
+			{
+				ArrayList<PotionEffect> effects = fzone.getEffects(Flags.EFFECT_OUT);
+				for (PotionEffect effect : effects)
+				{
+					player.removePotionEffect(effect.getType());
+				}
+			}
 		}
 		if ((tzone != fzone) && (tzone != null))
 		{
@@ -225,6 +235,14 @@ public class pListener implements Listener {
 				for (ItemStack item : inventory)
 				{
 					InvManager.removeFromInventory(player.getInventory(), item);
+				}
+			}
+			if (tzone.hasFlag(Flags.EFFECT_IN))
+			{
+				ArrayList<PotionEffect> effects = tzone.getEffects(Flags.EFFECT_IN);
+				for (PotionEffect effect : effects)
+				{
+					player.addPotionEffect(effect);
 				}
 			}
 		}
@@ -287,9 +305,9 @@ public class pListener implements Listener {
 			{
 				String s = fzone.getFarewell();
 				player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + fzone.getName() + " > " + ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', s));
-				if (iZone.serverVersion.newerThan(Minecraft.Version.v1_8_R1))
+				if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_8_R1))
 				{
-					Title.sendTitle(player, 2, 20, 2, "", ChatColor.YELLOW + s);
+					MessagesAPI.sendTitle(player, ConfigManager.getTitleFadeIn(), ConfigManager.getTitleStay(), ConfigManager.getTitleFadeOut(), "", ChatColor.YELLOW + s);
 				}
 			}
 			if (fzone.hasFlag(Flags.GAMEMODE) && player.getServer().getDefaultGameMode() != player.getGameMode())
@@ -319,6 +337,14 @@ public class pListener implements Listener {
 					InvManager.removeFromInventory(player.getInventory(), item);
 				}
 			}
+			if (fzone.hasFlag(Flags.EFFECT_OUT))
+			{
+				ArrayList<PotionEffect> effects = fzone.getEffects(Flags.EFFECT_OUT);
+				for (PotionEffect effect : effects)
+				{
+					player.removePotionEffect(effect.getType());
+				}
+			}
 		}
 		if (tzone != fzone && tzone != null)
 		{
@@ -326,9 +352,9 @@ public class pListener implements Listener {
 			{
 				String s = tzone.getWelcome();
 				player.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + tzone.getName() + " > " + ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('&', s));
-				if (iZone.serverVersion.newerThan(Minecraft.Version.v1_8_R1))
+				if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_8_R1))
 				{
-					Title.sendTitle(player, 2, 20, 2, "", ChatColor.YELLOW + s);
+					MessagesAPI.sendTitle(player, ConfigManager.getTitleFadeIn(), ConfigManager.getTitleStay(), ConfigManager.getTitleFadeOut(), "", ChatColor.YELLOW + s);
 				}
 			}
 			if (tzone.hasFlag(Flags.GIVEITEM_IN))
@@ -345,6 +371,14 @@ public class pListener implements Listener {
 				for (ItemStack item : inventory)
 				{
 					InvManager.removeFromInventory(player.getInventory(), item);
+				}
+			}
+			if (tzone.hasFlag(Flags.EFFECT_IN))
+			{
+				ArrayList<PotionEffect> effects = tzone.getEffects(Flags.EFFECT_IN);
+				for (PotionEffect effect : effects)
+				{
+					player.addPotionEffect(effect);
 				}
 			}
 		}

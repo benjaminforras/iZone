@@ -1,10 +1,10 @@
 package net.techguard.izone.Commands.zmod;
 
-import net.techguard.izone.Variables;
-import net.techguard.izone.iZone;
 import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Variables;
 import net.techguard.izone.Zones.Flags;
 import net.techguard.izone.Zones.Zone;
+import net.techguard.izone.iZone;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -13,6 +13,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import static net.techguard.izone.Utils.Localization.I18n.tl;
@@ -26,174 +28,164 @@ public class flagCommand extends zmodBase {
 		String name = cmd[2];
 		String flag = cmd[3];
 
-		if (ZoneManager.getZone(name) != null)
-		{
+		if (ZoneManager.getZone(name) != null) {
 			Zone zone = ZoneManager.getZone(name);
-			if ((!zone.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER)))
-			{
+			if ((!zone.getOwners().contains(player.getName())) && (!player.hasPermission(Variables.PERMISSION_OWNER))) {
 				player.sendMessage(iZone.getPrefix() + tl("zone_notowner"));
 				return;
 			}
 			String text = "";
-			if (cmd.length >= 5)
-			{
-				for (int i = 4; i < cmd.length; i++)
-				{
+			if (cmd.length >= 5) {
+				for (int i = 4; i < cmd.length; i++) {
 					text = text + cmd[i] + " ";
 				}
-				if (text.endsWith(" "))
-				{
+				if (text.endsWith(" ")) {
 					text = text.substring(0, text.length() - 1);
 				}
 			}
 
-			for (Flags flag2 : Flags.values())
-			{
-				if (flag2.toString().toLowerCase().startsWith(flag.toLowerCase()))
-				{
-					if (!player.hasPermission(Variables.PERMISSION_FLAGS + flag2.toString()))
-					{
+			for (Flags flag2 : Flags.values()) {
+				if (flag2.toString().toLowerCase().startsWith(flag.toLowerCase())) {
+					if (!player.hasPermission(Variables.PERMISSION_FLAGS + flag2.toString())) {
 						player.sendMessage(iZone.getPrefix() + tl("zone_flag_no_permission"));
 						return;
 					}
-					if ((flag2 == Flags.WELCOME) || (flag2 == Flags.FAREWELL))
-					{
-						if (text.length() > 0)
-						{
-							if (flag2 == Flags.WELCOME)
-							{
+					if ((flag2 == Flags.WELCOME) || (flag2 == Flags.FAREWELL)) {
+						if (text.length() > 0) {
+							if (flag2 == Flags.WELCOME) {
 								zone.setWelcome(text);
 							}
-							if (flag2 == Flags.FAREWELL)
-							{
+							if (flag2 == Flags.FAREWELL) {
 								zone.setFarewell(text);
 							}
 							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data"));
-							if (zone.hasFlag(flag2))
-							{
+							if (zone.hasFlag(flag2)) {
 								return;
 							}
-						}
-						else if (!zone.hasFlag(flag2))
-						{
+						} else if (!zone.hasFlag(flag2)) {
 							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint"));
 						}
 					}
 					short data;
 					int   amount;
-					if ((flag2 == Flags.GIVEITEM_IN) || (flag2 == Flags.GIVEITEM_OUT) || (flag2 == Flags.TAKEITEM_IN) || (flag2 == Flags.TAKEITEM_OUT))
-					{
-						if (text.length() > 0)
-						{
-							if (text.startsWith("+ "))
-							{
+					if ((flag2 == Flags.GIVEITEM_IN) || (flag2 == Flags.GIVEITEM_OUT) || (flag2 == Flags.TAKEITEM_IN) || (flag2 == Flags.TAKEITEM_OUT)) {
+						if (text.length() > 0) {
+							if (text.startsWith("+ ")) {
 								ItemStack item = getItemStack(text = text.replaceFirst("\\+ ", ""));
 
-								if (item != null)
-								{
+								if (item != null) {
 									zone.addInventory(flag2, item);
 									Material type = item.getType();
 									data = item.getData().getData();
 									amount = item.getAmount();
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
-								}
-								else
-								{
+								} else {
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
-							}
-							else if (text.startsWith("- "))
-							{
+							} else if (text.startsWith("- ")) {
 								ItemStack item = getItemStack(text = text.replaceFirst("\\- ", ""));
 
-								if (item != null)
-								{
+								if (item != null) {
 									zone.removeInventory(flag2, item);
 									Material type = item.getType();
 									data = item.getData().getData();
 									amount = item.getAmount();
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
-								}
-								else
-								{
+								} else {
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
-							}
-							else
-							{
+							} else {
 								player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error2"));
 							}
 							return;
 						}
-						if (!zone.hasFlag(flag2))
-						{
+						if (!zone.hasFlag(flag2)) {
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint2"));
+						}
+					} else if ((flag2 == Flags.EFFECT_IN) || (flag2 == Flags.EFFECT_OUT)) {
+						if (text.length() > 0) {
+							if (text.startsWith("+ ")) {
+								PotionEffect item = getPotionEffect(text = text.replaceFirst("\\+ ", ""));
+
+								if (item != null) {
+									zone.addEffect(flag2, item);
+									PotionEffectType type      = item.getType();
+									int              amplifier = item.getAmplifier();
+									amount = item.getDuration();
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", flag2.getName(), (type == PotionEffectType.LUCK ? "All" : type.getName()), ((amplifier == -1 ? "All" : amplifier)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+								} else {
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
+								}
+							} else if (text.startsWith("- ")) {
+								PotionEffect item = getPotionEffect(text = text.replaceFirst("\\- ", ""));
+
+								if (item != null) {
+									zone.removeEffect(flag2, item);
+									PotionEffectType type      = item.getType();
+									int              amplifier = item.getAmplifier();
+									amount = item.getDuration();
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove", flag2.getName(), (type == PotionEffectType.LUCK ? "All" : type.getName()), ((amplifier == -1 ? "All" : amplifier)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+								} else {
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
+								}
+							} else {
+								player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error2"));
+							}
+							return;
+						}
+						if (!zone.hasFlag(flag2)) {
 							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint2"));
 						}
 					}
-					if (flag2 == Flags.GAMEMODE)
-					{
-						if (text.length() > 0)
-						{
+
+					if (flag2 == Flags.GAMEMODE) {
+						if (text.length() > 0) {
 							GameMode   gm = null;
 							GameMode[] arrayOfGameMode;
 							amount = (arrayOfGameMode = GameMode.values()).length;
-							for (data = 0; data < amount; data++)
-							{
+							for (data = 0; data < amount; data++) {
 								GameMode mode = arrayOfGameMode[data];
-								if (mode.name().toLowerCase().startsWith(text.toLowerCase()))
-								{
+								if (mode.name().toLowerCase().startsWith(text.toLowerCase())) {
 									gm = mode;
 								}
 							}
-							if (gm != null)
-							{
+							if (gm != null) {
 								zone.setGamemode(gm);
 								player.sendMessage(iZone.getPrefix() + tl("zone_flag_gamemode_change", gm.name().toLowerCase()));
-								if (zone.hasFlag(flag2))
-								{
+								if (zone.hasFlag(flag2)) {
 									return;
 								}
-							}
-							else
-							{
+							} else {
 								player.sendMessage(iZone.getPrefix() + tl("zone_flag_gamemode_error"));
 							}
-						}
-						else if (!zone.hasFlag(flag2))
-						{
+						} else if (!zone.hasFlag(flag2)) {
 							player.sendMessage(iZone.getPrefix() + tl("zone_flag_gamemode_hint"));
 						}
 					}
 
-					if(flag2 == Flags.TELEPORT)
-					{
+					if (flag2 == Flags.TELEPORT) {
 						Location location = player.getLocation();
 
 						Border border = new Border(zone.getBorder1().toVector(), zone.getBorder2().toVector());
-						if(!border.contains(player.getLocation())) {
+						if (!border.contains(player.getLocation())) {
 							player.sendMessage(iZone.getPrefix() + ChatColor.RED + tl("flag_teleport_not_in_zone"));
 							return;
 						}
 
-						if(isSafeLocation(location))
-						{
+						if (isSafeLocation(location)) {
 							zone.setTeleport(location);
 							player.sendMessage(iZone.getPrefix() + ChatColor.GOLD + tl("flag_teleport_set"));
-							if (zone.hasFlag(flag2))
-							{
+							if (zone.hasFlag(flag2)) {
 								return;
 							}
-						}
-						else player.sendMessage(iZone.getPrefix() + ChatColor.RED + tl("flag_teleport_notsafe"));
+						} else player.sendMessage(iZone.getPrefix() + ChatColor.RED + tl("flag_teleport_notsafe"));
 					}
 
 					zone.setFlag(flag2.getId(), !zone.hasFlag(flag2));
 					player.sendMessage(iZone.getPrefix() + tl("flag_set", flag2.getName(), (zone.hasFlag(flag2) ? ChatColor.GREEN + "" + ChatColor.BOLD + "ON" : ChatColor.RED + "" + ChatColor.BOLD + "OFF")));
 				}
 			}
-		}
-		else
-		{
+		} else {
 			player.sendMessage(iZone.getPrefix() + tl("zone_not_found"));
 		}
 	}
@@ -212,18 +204,14 @@ public class flagCommand extends zmodBase {
 
 	@SuppressWarnings({"SameReturnValue", "UnusedParameters"})
 	public String getError(Player player, int i) {
-		if (player != null)
-		{
+		if (player != null) {
 			String flags = "";
-			for (Flags f : Flags.values())
-			{
-				if (player.hasPermission(Variables.PERMISSION_FLAGS + f.toString()))
-				{
+			for (Flags f : Flags.values()) {
+				if (player.hasPermission(Variables.PERMISSION_FLAGS + f.toString())) {
 					flags = flags + "§f" + f.toString() + "§c, ";
 				}
 			}
-			if (flags.endsWith("§c, "))
-			{
+			if (flags.endsWith("§c, ")) {
 				flags = flags.substring(0, flags.length() - 4);
 			}
 			player.sendMessage("§cAvailable Flags: " + flags);
@@ -240,61 +228,93 @@ public class flagCommand extends zmodBase {
 		String data   = "";
 		String amount = "";
 
-		if (text.equals("*"))
-		{
+		if (text.equals("*")) {
 			return new ItemStack(Material.AIR, -1, (short) -1);
 		}
 
-		if (text.contains(","))
-		{
+		if (text.contains(",")) {
 			String[] split = item.split(",");
 			item = split[0];
 			amount = split[1];
 		}
-		if (item.contains(":"))
-		{
+		if (item.contains(":")) {
 			String[] split = item.split(":");
 			item = split[0];
 			data = split[1];
 		}
 		Material item0 = Material.matchMaterial(item);
-		if ((item.equals("*")) || (item.equals("-1")))
-		{
+		if ((item.equals("*")) || (item.equals("-1"))) {
 			item0 = Material.AIR;
 		}
-		if (item0 == null)
-		{
+		if (item0 == null) {
 			return null;
 		}
 		short data0   = 0;
 		int   amount0 = 1;
-		try
-		{
-			if ((data.equals("*")) || (data.equals("-1")))
-			{
+		try {
+			if ((data.equals("*")) || (data.equals("-1"))) {
 				data0 = -1;
-			}
-			else if (!data.equals(""))
-			{
+			} else if (!data.equals("")) {
 				data0 = (short) Integer.parseInt(data);
 			}
-		} catch (Exception ignored)
-		{
+		} catch (Exception ignored) {
 		}
-		try
-		{
-			if ((amount.equals("*")) || (amount.equals("-1")))
-			{
+		try {
+			if ((amount.equals("*")) || (amount.equals("-1"))) {
 				amount0 = -1;
-			}
-			else if (!amount.equals(""))
-			{
+			} else if (!amount.equals("")) {
 				amount0 = Integer.parseInt(amount);
 			}
-		} catch (Exception ignored)
-		{
+		} catch (Exception ignored) {
 		}
 		return new ItemStack(item0, amount0, data0);
+	}
+
+	private PotionEffect getPotionEffect(String text) {
+		String item   = text;
+		String data   = "";
+		String amount = "";
+
+		if (text.equals("*")) {
+			return new PotionEffect(PotionEffectType.LUCK, -1, (short) -1);
+		}
+
+		if (text.contains(",")) {
+			String[] split = item.split(",");
+			item = split[0];
+			amount = split[1];
+		}
+		if (item.contains(":")) {
+			String[] split = item.split(":");
+			item = split[0];
+			data = split[1];
+		}
+		PotionEffectType item0 = PotionEffectType.getByName(item);
+		if ((item.equals("*")) || (item.equals("-1"))) {
+			item0 = PotionEffectType.LUCK;
+		}
+		if (item0 == null) {
+			return null;
+		}
+		int data0   = 0;
+		int amount0 = 1;
+		try {
+			if ((data.equals("*")) || (data.equals("-1"))) {
+				data0 = -1;
+			} else if (!data.equals("")) {
+				data0 = Integer.parseInt(data);
+			}
+		} catch (Exception ignored) {
+		}
+		try {
+			if ((amount.equals("*")) || (amount.equals("-1"))) {
+				amount0 = -1;
+			} else if (!amount.equals("")) {
+				amount0 = Integer.parseInt(amount);
+			}
+		} catch (Exception ignored) {
+		}
+		return new PotionEffect(item0, amount0, data0);
 	}
 
 	private boolean isSafeLocation(Location location) {
@@ -334,13 +354,12 @@ public class flagCommand extends zmodBase {
 		}
 
 		public boolean contains(Location loc) {
-			if (loc == null)
-			{
+			if (loc == null) {
 				return false;
 			}
 			return loc.getBlockX() >= p1.getBlockX() && loc.getBlockX() <= p2.getBlockX()
-			       && loc.getBlockY() >= p1.getBlockY() && loc.getBlockY() <= p2.getBlockY()
-			       && loc.getBlockZ() >= p1.getBlockZ() && loc.getBlockZ() <= p2.getBlockZ();
+					&& loc.getBlockY() >= p1.getBlockY() && loc.getBlockY() <= p2.getBlockY()
+					&& loc.getBlockZ() >= p1.getBlockZ() && loc.getBlockZ() <= p2.getBlockZ();
 		}
 
 	}

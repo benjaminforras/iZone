@@ -11,7 +11,7 @@ import net.techguard.izone.Listeners.wListener;
 import net.techguard.izone.Managers.HealthManager;
 import net.techguard.izone.Managers.VaultManager;
 import net.techguard.izone.Managers.ZoneManager;
-import net.techguard.izone.MenuBuilder.inventory.InventoryListener;
+import net.techguard.izone.Utils.MenuBuilder.inventory.InventoryListener;
 import net.techguard.izone.Utils.Localization.I18n;
 import net.techguard.izone.Zones.Flags;
 import net.techguard.izone.Zones.Zone;
@@ -23,6 +23,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.inventivetalent.reflection.minecraft.Minecraft;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +38,6 @@ import static net.techguard.izone.Utils.Localization.I18n.tl;
 
 public class iZone extends JavaPlugin {
 	public static            iZone             instance;
-	public static            Minecraft.Version serverVersion;
 	private static           Configurable      mainConfig;
 	private static           Configurable      disabledWorldsConfig;
 	private static           Configurable      vaultConfig;
@@ -64,8 +66,7 @@ public class iZone extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 
-		serverVersion = Minecraft.Version.getVersion();
-		if (serverVersion == Minecraft.Version.UNKNOWN)
+		if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_7_R1))
 		{
 			getLogger().info("- Error loading iZone v" + this.getDescription().getVersion() + ".");
 			getLogger().info("Supported Minecraft versions are: 1.7, 1.8, 1.9, 1.10 and 1.11");
@@ -77,7 +78,7 @@ public class iZone extends JavaPlugin {
 		registerCommands();
 
 		getLogger().info("Your server is running version " + this.getDescription().getVersion());
-		getLogger().info("Minecraft version is: " + serverVersion.toString());
+		getLogger().info("Minecraft version is: " + Minecraft.VERSION);
 
 		VaultManager.load(this);
 
@@ -120,15 +121,9 @@ public class iZone extends JavaPlugin {
 		pm.registerEvents(new eListener(), this);
 		pm.registerEvents(new wListener(), this);
 
-		getLogger().info("- Initalizing metrics");
-		try
-		{
-			Metrics metrics = new Metrics(this);
-			metrics.start();
-		} catch (IOException e)
-		{
-			getLogger().info("- Failed to initalize metrics");
-		}
+		getLogger().info("- Initializing metrics | bStats");
+
+		new Metrics(this);
 	}
 
 	private void registerCommands() {
@@ -254,6 +249,19 @@ public class iZone extends JavaPlugin {
 					zone.addInventory(flag, item);
 				}
 			}
+			for (Flags flag : new Flags[]{Flags.EFFECT_IN, Flags.EFFECT_OUT})
+			{
+				List<String> effects = saveFile.getStringList("effects." + flag.toString());
+				for (String key : effects)
+				{
+					PotionEffect effect = getPotionEffect(key);
+					if (effect == null)
+					{
+						continue;
+					}
+					zone.addEffect(flag, effect);
+				}
+			}
 
 			zone.setSave(true);
 			ZoneManager.add(zone);
@@ -304,6 +312,20 @@ public class iZone extends JavaPlugin {
 			return null;
 		}
 		return item;
+	}
+
+	private PotionEffect getPotionEffect(String value)
+	{
+		PotionEffect potionEffect;
+		String[]  split = value.split(", ");
+		try
+		{
+			potionEffect = new PotionEffect(PotionEffectType.getByName(split[0].substring(1)), Integer.parseInt(split[1]), Integer.parseInt(split[2].substring(0, split[2].length() - 1)));
+		} catch (Exception e)
+		{
+			return null;
+		}
+		return potionEffect;
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -1,4 +1,4 @@
-package net.techguard.izone.MenuBuilder;
+package net.techguard.izone.Utils.MenuBuilder;
 
 import org.bukkit.inventory.ItemStack;
 

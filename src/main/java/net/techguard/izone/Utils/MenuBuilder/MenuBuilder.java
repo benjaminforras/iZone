@@ -25,17 +25,17 @@
  *  authors and contributors and should not be interpreted as representing official policies,
  *  either expressed or implied, of anybody else.
  */
-package net.techguard.izone.MenuBuilder;
+package net.techguard.izone.Utils.MenuBuilder;
 
 import org.bukkit.entity.HumanEntity;
 
 /**
  * Core MenuBuilder class
- * Use {@link net.techguard.izone.MenuBuilder.inventory.InventoryMenuBuilder} or {@link net.techguard.izone.MenuBuilder.chat.ChatMenuBuilder}
+ * Use {@link net.techguard.izone.Utils.MenuBuilder.inventory.InventoryMenuBuilder} or {@link net.techguard.izone.Utils.MenuBuilder.chat.ChatMenuBuilder}
  *
  * @param <T> Type of the builder
- * @see net.techguard.izone.MenuBuilder.inventory.InventoryMenuBuilder
- * @see net.techguard.izone.MenuBuilder.chat.ChatMenuBuilder
+ * @see net.techguard.izone.Utils.MenuBuilder.inventory.InventoryMenuBuilder
+ * @see net.techguard.izone.Utils.MenuBuilder.chat.ChatMenuBuilder
  */
 public abstract class MenuBuilder<T> {
 

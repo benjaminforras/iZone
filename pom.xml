@@ -3,7 +3,7 @@
 
 	<groupId>net.techguard</groupId>
 	<artifactId>iZone</artifactId>
-	<version>8.0.15-${TRAVIS_BUILD_NUMBER}</version>
+	<version>1.0.${TRAVIS_BUILD_NUMBER}</version>
 	<packaging>jar</packaging>
 
 	<name>iZone</name>
@@ -22,6 +22,27 @@
 			<artifactId>spigot-api</artifactId>
 			<version>${server.version}</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- https://github.com/InventivetalentDev/ReflectionHelper - Latest Version -->
+		<dependency>
+			<groupId>com.github.InventivetalentDev</groupId>
+			<artifactId>ReflectionHelper</artifactId>
+			<version>-SNAPSHOT</version>
+		</dependency>
+
+		<!-- https://github.com/InventivetalentDev/ParticleAPI - Latest Version -->
+		<dependency>
+			<groupId>com.github.InventivetalentDev</groupId>
+			<artifactId>ParticleAPI</artifactId>
+			<version>-SNAPSHOT</version>
+		</dependency>
+
+		<!-- https://github.com/InventivetalentDev/BossBarAPI - Latest Version -->
+		<dependency>
+			<groupId>com.github.TryHardDood</groupId>
+			<artifactId>BossBarAPI</artifactId>
+			<version>dafa36593c</version>
 		</dependency>
 
 		<!--Vault API-->
@@ -73,6 +94,43 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<artifactSet>
+								<includes>
+									<include>com.github.InventivetalentDev:ReflectionHelper:*</include>
+									<include>com.github.InventivetalentDev:ParticleAPI:*</include>
+									<include>com.github.TryHardDood:BossBarAPI:*</include>
+								</includes>
+							</artifactSet>
+							<relocations>
+								<relocation>
+									<pattern>org.inventivetalent.bossbar</pattern>
+									<shadedPattern>hu.tryharddood.izone.Utils.BossBarAPI</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>org.inventivetalent.particle</pattern>
+									<shadedPattern>hu.tryharddood.izone.Utils.ParticleAPI</shadedPattern>
+								</relocation>
+								<relocation>
+									<pattern>org.inventivetalent.reflection</pattern>
+									<shadedPattern>hu.tryharddood.izone.Utils.ReflectionHelper</shadedPattern>
+								</relocation>
+							</relocations>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

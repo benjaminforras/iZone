@@ -1,6 +1,6 @@
 name: iZone
 main: net.techguard.izone.iZone
-version: @version@
+version: ${project.version}
 description: Easy yet Complex
 softdepend: [Vault, Multiverse-Core, MultiWorld, ParticleLIB]
 authors:
