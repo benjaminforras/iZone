@@ -152,7 +152,7 @@ public class Config implements Configurable {
 		get().set("hurting.time", 7);
 		get().set("hurting.amount", 2);
 
-		get().set("restriction.size..(-1, -1, -1)", "izone.zone.max-size.unlimited");
+		get().set("restriction.size.(-1, -1, -1)", "izone.zone.max-size.unlimited");
 		get().set("restriction.size.(50, 256, 50)", "izone.zone.max-size.1");
 
 		get().set("restriction.zone.-1", "izone.zone.max-zone.unlimited");

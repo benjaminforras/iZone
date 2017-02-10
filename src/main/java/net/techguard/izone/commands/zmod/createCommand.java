@@ -69,11 +69,25 @@ public class createCommand extends zmodBase {
 					return;
 				}
 			}
+
+			if(c[0].getY() == c[1].getY())
+			{
+				String permission = ZoneManager.canBuildZone(player, c);
+				//			size:(5, 5, 5)
+				int maxHeight = Integer.valueOf(permission.split(", ")[1]);
+				if(maxHeight == -1)
+				{
+					maxHeight = player.getWorld().getMaxHeight();
+				}
+				c[0].setY(maxHeight);
+			}
+
 			if (ZoneManager.checkZoneInside(c))
 			{
 				player.sendMessage(iZone.getPrefix() + tl("zone_create_error"));
 				return;
 			}
+
 			Zone zone = ZoneManager.add(name, c);
 			zone.Add("o:" + player.getName());
 
