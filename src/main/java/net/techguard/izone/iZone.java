@@ -102,14 +102,6 @@ public class iZone extends JavaPlugin {
 		{
 			getServer().getScheduler().scheduleSyncRepeatingTask(this, new HealthManager(this), 200L, 10L);
 		}
-
-		try
-		{
-			new Updater(this, 23349);
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
 	}
 
 	private void registerEvents() {
