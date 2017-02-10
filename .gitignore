@@ -19,6 +19,8 @@ target/classes/
 target/generated-sources/
 target/maven-archiver/
 target/surefire/
+target/iZone.jar
+target/original-iZone.jar
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
@@ -61,4 +63,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 .idea/workspace.xml
-target/iZone.jar
