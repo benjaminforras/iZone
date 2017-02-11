@@ -147,6 +147,8 @@ public class Config implements Configurable {
 		get().set("particles.enabled", false);
 		get().set("particles.particle", "FIREWORKS_SPARK");
 
+		get().set("autoexpand.enabled", true);
+
 		get().set("healing.time", 3);
 		get().set("healing.amount", 1);
 		get().set("hurting.time", 7);
@@ -158,6 +160,7 @@ public class Config implements Configurable {
 		get().set("restriction.zone.-1", "izone.zone.max-zone.unlimited");
 		get().set("restriction.zone.3", "izone.zone.max-zone.1");
 
+		get().set("messages.title.enabled", true);
 		get().set("messages.title.fadeIn", 2);
 		get().set("messages.title.stay", 20);
 		get().set("messages.title.fadeOut", 2);

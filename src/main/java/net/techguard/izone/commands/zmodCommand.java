@@ -221,7 +221,7 @@ public class zmodCommand extends BaseCommand {
 
 			pageInventory.onInteract((player1, action, event) ->
 			{
-				if (event.getAction() != InventoryAction.PICKUP_ALL) {
+				if (event.getAction() != InventoryAction.PICKUP_ALL && event.getClick() != ClickType.SHIFT_LEFT) {
 					event.setCancelled(true);
 
 					player.closeInventory();
@@ -231,6 +231,16 @@ public class zmodCommand extends BaseCommand {
 				}
 
 				ItemStack item = pageInventory.getInventory().getItem(event.getSlot());
+
+				if(item == null)
+				{
+					event.setCancelled(true);
+
+					player.closeInventory();
+					player.openInventory(event.getClickedInventory());
+
+					return;
+				}
 
 				int newPage = 0;
 				if (item.equals(pageInventory.getBackPage())) {

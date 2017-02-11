@@ -28,8 +28,10 @@ public enum Flags {
 	TAKEITEM_OUT,
 	GIVEITEM_IN,
 	GIVEITEM_OUT,
-	EFFECT_IN,
-	EFFECT_OUT,
+	GIVEEFFECT_IN,
+	GIVEEFFECT_OUT,
+	TAKEEFFECT_IN,
+	TAKEEFFECT_OUT,
 	MELT,
 	TELEPORT,
 	WATER_FLOW,
@@ -156,13 +158,21 @@ public enum Flags {
 		{
 			return "Give Item(Out)";
 		}
-		if (this == EFFECT_IN)
+		if (this == GIVEEFFECT_IN)
 		{
-			return "Effect In(In)";
+			return "Give Effect In(In)";
 		}
-		if (this == EFFECT_OUT)
+		if (this == GIVEEFFECT_OUT)
 		{
-			return "Effect Out(Out)";
+			return "Give Effect Out(Out)";
+		}
+		if (this == TAKEEFFECT_IN)
+		{
+			return "Take Effect In(In)";
+		}
+		if (this == TAKEEFFECT_OUT)
+		{
+			return "Take Effect Out(Out)";
 		}
 		if (this == MELT)
 		{

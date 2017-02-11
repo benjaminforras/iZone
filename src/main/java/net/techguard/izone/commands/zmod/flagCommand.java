@@ -1,21 +1,23 @@
 package net.techguard.izone.Commands.zmod;
 
 import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Utils.MessagesAPI;
 import net.techguard.izone.Variables;
 import net.techguard.izone.Zones.Flags;
 import net.techguard.izone.Zones.Zone;
 import net.techguard.izone.iZone;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.*;
 import org.bukkit.util.Vector;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 import static net.techguard.izone.Utils.Localization.I18n.tl;
 
@@ -58,7 +60,7 @@ public class flagCommand extends zmodBase {
 							if (flag2 == Flags.FAREWELL) {
 								zone.setFarewell(text);
 							}
-							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data"));
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data", flag2.getName()));
 							if (zone.hasFlag(flag2)) {
 								return;
 							}
@@ -78,7 +80,7 @@ public class flagCommand extends zmodBase {
 									Material type = item.getType();
 									data = item.getData().getData();
 									amount = item.getAmount();
-									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", zone.getName(), flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
 								} else {
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
@@ -90,7 +92,7 @@ public class flagCommand extends zmodBase {
 									Material type = item.getType();
 									data = item.getData().getData();
 									amount = item.getAmount();
-									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove", flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove", zone.getName(), flag2.getName(), (type == Material.AIR ? "All" : type.name()), (data == -1 ? "All" : Short.valueOf(data)), (amount == -1 ? "All" : Integer.valueOf(amount))));
 								} else {
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
@@ -102,39 +104,74 @@ public class flagCommand extends zmodBase {
 						if (!zone.hasFlag(flag2)) {
 							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint2"));
 						}
-					} else if ((flag2 == Flags.EFFECT_IN) || (flag2 == Flags.EFFECT_OUT)) {
+					} else if ((flag2 == Flags.GIVEEFFECT_IN) || (flag2 == Flags.GIVEEFFECT_OUT) || (flag2 == Flags.TAKEEFFECT_IN) || (flag2 == Flags.TAKEEFFECT_OUT)) {
 						if (text.length() > 0) {
 							if (text.startsWith("+ ")) {
-								PotionEffect item = getPotionEffect(text = text.replaceFirst("\\+ ", ""));
+								PotionEffect potionEffect = getPotionEffect(text = text.replaceFirst("\\+ ", ""));
 
-								if (item != null) {
-									zone.addEffect(flag2, item);
-									PotionEffectType type      = item.getType();
-									int              amplifier = item.getAmplifier();
-									amount = item.getDuration();
-									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", flag2.getName(), (type == PotionEffectType.LUCK ? "All" : type.getName()), ((amplifier == -1 ? "All" : amplifier)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+								if(potionEffect == null)
+								{
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error4"));
+									player.sendMessage(Arrays.toString(PotionEffectType.values()));
+									return;
+								}
+
+								if (potionEffect != null) {
+									zone.addEffect(flag2, potionEffect);
+
+									/*Potion potion = new Potion(PotionType.getByEffect(potionEffect.getType()));
+									potion.getEffects().clear();
+									potion.getEffects().addAll(Collections.singleton(potionEffect));*/
+
+									ItemStack potionItem = new ItemStack(Material.POTION);
+									ItemMeta  meta       = potionItem.getItemMeta();
+									if (meta == null) {
+										meta = Bukkit.getItemFactory().getItemMeta(Material.POTION);
+									}
+									PotionMeta potionMeta = (PotionMeta) meta;
+									potionMeta.addCustomEffect(potionEffect, true);
+									potionItem.setItemMeta(potionMeta);
+
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add2"));
+									MessagesAPI.sendItemTooltipMessage(player, "- " + potionEffect.getType().getName(), potionItem);
+									//player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_add", zone.getName(), flag2.getName(), type.getName(), amplifier + ":" + duration));
 								} else {
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
 							} else if (text.startsWith("- ")) {
-								PotionEffect item = getPotionEffect(text = text.replaceFirst("\\- ", ""));
+								PotionEffect potionEffect = getPotionEffect(text = text.replaceFirst("\\- ", ""));
 
-								if (item != null) {
-									zone.removeEffect(flag2, item);
-									PotionEffectType type      = item.getType();
-									int              amplifier = item.getAmplifier();
-									amount = item.getDuration();
-									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove", flag2.getName(), (type == PotionEffectType.LUCK ? "All" : type.getName()), ((amplifier == -1 ? "All" : amplifier)), (amount == -1 ? "All" : Integer.valueOf(amount))));
+								if(potionEffect == null)
+								{
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error4"));
+									player.sendMessage(Arrays.toString(PotionEffectType.values()));
+									return;
+								}
+
+								if (potionEffect != null) {
+									zone.removeEffect(flag2, potionEffect);
+
+									ItemStack potionItem = new ItemStack(Material.POTION);
+									ItemMeta  meta       = potionItem.getItemMeta();
+									if (meta == null) {
+										meta = Bukkit.getItemFactory().getItemMeta(Material.POTION);
+									}
+									PotionMeta potionMeta = (PotionMeta) meta;
+									potionMeta.addCustomEffect(potionEffect, true);
+									potionItem.setItemMeta(potionMeta);
+
+									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_remove2"));
+									MessagesAPI.sendItemTooltipMessage(player, "- " + potionEffect.getType().getName(), potionItem);
 								} else {
 									player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error", text));
 								}
 							} else {
-								player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error2"));
+								player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_error3"));
 							}
 							return;
 						}
 						if (!zone.hasFlag(flag2)) {
-							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint2"));
+							player.sendMessage(iZone.getPrefix() + tl("zone_flag_data_hint3"));
 						}
 					}
 
@@ -270,51 +307,58 @@ public class flagCommand extends zmodBase {
 		return new ItemStack(item0, amount0, data0);
 	}
 
+	// effect,duration,amplifier
 	private PotionEffect getPotionEffect(String text) {
-		String item   = text;
-		String data   = "";
-		String amount = "";
+		String effectTypeString      = text;
+		String effectDurationString  = "";
+		String effectAmplifierString = "";
 
 		if (text.equals("*")) {
 			return new PotionEffect(PotionEffectType.LUCK, -1, (short) -1);
 		}
 
 		if (text.contains(",")) {
-			String[] split = item.split(",");
-			item = split[0];
-			amount = split[1];
+			String[] split = effectTypeString.split(",");
+			effectTypeString = split[0];
+			effectDurationString = split[1];
+			if (split.length > 2) {
+				effectAmplifierString = split[2];
+			}
 		}
-		if (item.contains(":")) {
-			String[] split = item.split(":");
-			item = split[0];
-			data = split[1];
-		}
-		PotionEffectType item0 = PotionEffectType.getByName(item);
-		if ((item.equals("*")) || (item.equals("-1"))) {
-			item0 = PotionEffectType.LUCK;
-		}
-		if (item0 == null) {
+
+		PotionEffectType effectType = PotionEffectType.getByName(effectTypeString);
+		if(effectType == null)
+		{
 			return null;
 		}
-		int data0   = 0;
-		int amount0 = 1;
+
+		if ((effectTypeString.equals("*")) || (effectTypeString.equals("-1"))) {
+			effectType = PotionEffectType.LUCK;
+		}
+		if (effectType == null) {
+			return null;
+		}
+
+		int effectDuration  = 1;
+		int effectAmplifier = 1;
 		try {
-			if ((data.equals("*")) || (data.equals("-1"))) {
-				data0 = -1;
-			} else if (!data.equals("")) {
-				data0 = Integer.parseInt(data);
+			if ((effectAmplifierString.equals("*")) || (effectAmplifierString.equals("-1"))) {
+				effectAmplifier = -1;
+			} else if (!effectAmplifierString.equals("")) {
+				effectAmplifier = Integer.parseInt(effectAmplifierString);
 			}
 		} catch (Exception ignored) {
 		}
+
 		try {
-			if ((amount.equals("*")) || (amount.equals("-1"))) {
-				amount0 = -1;
-			} else if (!amount.equals("")) {
-				amount0 = Integer.parseInt(amount);
+			if ((effectDurationString.equals("*")) || (effectDurationString.equals("-1"))) {
+				effectDuration = -1;
+			} else if (!effectDurationString.equals("")) {
+				effectDuration = Integer.parseInt(effectDurationString);
 			}
 		} catch (Exception ignored) {
 		}
-		return new PotionEffect(item0, amount0, data0);
+		return new PotionEffect(effectType, effectDuration*20, effectAmplifier);
 	}
 
 	private boolean isSafeLocation(Location location) {

@@ -1,14 +1,22 @@
 package net.techguard.izone.Utils;
 
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.techguard.izone.iZone;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.inventivetalent.reflection.resolver.MethodResolver;
+import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
+import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.logging.Level;
 
 /*****************************************************
  *
@@ -19,7 +27,9 @@ import java.lang.reflect.Method;
  ****************************************************/
 public class MessagesAPI {
 	public static String nmsver;
-	private static boolean useOldMethods = false;
+	private static OBCClassResolver obcClassResolver = new OBCClassResolver();
+	private static NMSClassResolver nmsClassResolver = new NMSClassResolver();
+	private static boolean          useOldMethods    = false;
 
 	@Deprecated
 	public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String message) {
@@ -38,7 +48,6 @@ public class MessagesAPI {
 
 	@Deprecated
 	public static Integer getPlayerProtocol(Player player) {
-		/* Returns the 1.8 protocol version as this is the only protocol a player can possibly be on with Spigot 1.8 */
 		return 47;
 	}
 
@@ -219,4 +228,58 @@ public class MessagesAPI {
 		}
 	}
 
+	/**
+	 * Converts an {@link org.bukkit.inventory.ItemStack} to a Json string
+	 * for sending with {@link net.md_5.bungee.api.chat.BaseComponent}'s.
+	 *
+	 * @param itemStack the item to convert
+	 * @return the Json string representation of the item
+	 */
+	public static String convertItemStackToJson(ItemStack itemStack) {
+		Class<?> craftItemStackClazz = obcClassResolver.resolveSilent("inventory.CraftItemStack");
+
+		Method asNMSCopyMethod = new MethodResolver(craftItemStackClazz).resolveSilent("asNMSCopy");
+
+		Class<?> nmsItemStackClazz      = nmsClassResolver.resolveSilent("ItemStack");
+		Class<?> nbtTagCompoundClazz    = nmsClassResolver.resolveSilent("NBTTagCompound");
+		Method   saveNmsItemStackMethod = new MethodResolver(nmsItemStackClazz).resolveSilent("save");
+
+		Object nmsNbtTagCompoundObj;
+		Object nmsItemStackObj;
+		Object itemAsJsonObject;
+
+		try {
+			nmsNbtTagCompoundObj = nbtTagCompoundClazz.newInstance();
+			nmsItemStackObj = asNMSCopyMethod.invoke(null, itemStack);
+			itemAsJsonObject = saveNmsItemStackMethod.invoke(nmsItemStackObj, nmsNbtTagCompoundObj);
+		} catch (Throwable t) {
+			Bukkit.getLogger().log(Level.SEVERE, "failed to serialize itemstack to nms item", t);
+			return null;
+		}
+
+		return itemAsJsonObject.toString();
+	}
+
+	public static void sendItemTooltipMessage(Player player, String message, ItemStack item) {
+		String itemJson = null;
+		itemJson = convertItemStackToJson(item);
+
+		BaseComponent[] hoverEventComponents = new BaseComponent[]{new TextComponent(itemJson)};
+
+		HoverEvent event = new HoverEvent(HoverEvent.Action.SHOW_ITEM, hoverEventComponents);
+
+		TextComponent component = new TextComponent(message);
+		component.setHoverEvent(event);
+
+		player.spigot().sendMessage(component);
+	}
+
+	public void onEnable() {
+		nmsver = Bukkit.getServer().getClass().getPackage().getName();
+		nmsver = nmsver.substring(nmsver.lastIndexOf(".") + 1);
+
+		if (nmsver.equalsIgnoreCase("v1_8_R1") || nmsver.equalsIgnoreCase("v1_7_")) { // Not sure if 1_7 works for the protocol hack?
+			useOldMethods = true;
+		}
+	}
 }

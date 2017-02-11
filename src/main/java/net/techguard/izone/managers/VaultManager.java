@@ -1,12 +1,13 @@
 package net.techguard.izone.Managers;
 
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.permission.Permission;
 import net.techguard.izone.iZone;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class VaultManager {
-	public static  Economy instance = null;
-	private static boolean setup    = false;
+	public static  Economy    instance = null;
+	private static boolean    setup    = false;
 	private final iZone plugin;
 
 	private VaultManager(iZone instance) {

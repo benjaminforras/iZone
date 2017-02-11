@@ -1,13 +1,13 @@
 package net.techguard.izone.Commands.zmod;
 
 import net.milkbowl.vault.economy.Economy;
-import net.techguard.izone.Variables;
 import net.techguard.izone.Configuration.ConfigManager;
-import net.techguard.izone.iZone;
 import net.techguard.izone.Managers.VaultManager;
 import net.techguard.izone.Managers.ZoneManager;
+import net.techguard.izone.Variables;
 import net.techguard.izone.Zones.Settings;
 import net.techguard.izone.Zones.Zone;
+import net.techguard.izone.iZone;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -68,18 +68,6 @@ public class createCommand extends zmodBase {
 					player.sendMessage(iZone.getPrefix() + tl("notenough_money", vault.format(ConfigManager.getCreateZonePrice())));
 					return;
 				}
-			}
-
-			if(c[0].getY() == c[1].getY())
-			{
-				String permission = ZoneManager.canBuildZone(player, c);
-				//			size:(5, 5, 5)
-				int maxHeight = Integer.valueOf(permission.split(", ")[1]);
-				if(maxHeight == -1)
-				{
-					maxHeight = player.getWorld().getMaxHeight();
-				}
-				c[0].setY(maxHeight);
 			}
 
 			if (ZoneManager.checkZoneInside(c))

@@ -11,8 +11,9 @@ import net.techguard.izone.Listeners.wListener;
 import net.techguard.izone.Managers.HealthManager;
 import net.techguard.izone.Managers.VaultManager;
 import net.techguard.izone.Managers.ZoneManager;
-import net.techguard.izone.Utils.MenuBuilder.inventory.InventoryListener;
 import net.techguard.izone.Utils.Localization.I18n;
+import net.techguard.izone.Utils.MenuBuilder.inventory.InventoryListener;
+import net.techguard.izone.Utils.MessagesAPI;
 import net.techguard.izone.Zones.Flags;
 import net.techguard.izone.Zones.Zone;
 import org.bukkit.*;
@@ -28,7 +29,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.inventivetalent.reflection.minecraft.Minecraft;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -60,16 +60,18 @@ public class iZone extends JavaPlugin {
 			i18n.onDisable();
 		}
 
+
 	}
 
 	@Override
 	public void onEnable() {
 		instance = this;
 
-		if (Minecraft.VERSION.newerThan(Minecraft.Version.v1_7_R1))
-		{
+		try {
+			Class.forName("net.md_5.bungee.api.ChatColor");
+		} catch (ClassNotFoundException e) {
 			getLogger().info("- Error loading iZone v" + this.getDescription().getVersion() + ".");
-			getLogger().info("Supported Minecraft versions are: 1.7, 1.8, 1.9, 1.10 and 1.11");
+			getLogger().info("Supported Minecraft versions are Spigot 1.7, 1.8, 1.9, 1.10 and 1.11");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
@@ -97,6 +99,8 @@ public class iZone extends JavaPlugin {
 		loadUpdate();
 		loadLanguageFile();
 
+		MessagesAPI _messagesAPI = new MessagesAPI();
+		_messagesAPI.onEnable();
 
 		if (ConfigManager.getHealthListener())
 		{
@@ -241,7 +245,7 @@ public class iZone extends JavaPlugin {
 					zone.addInventory(flag, item);
 				}
 			}
-			for (Flags flag : new Flags[]{Flags.EFFECT_IN, Flags.EFFECT_OUT})
+			for (Flags flag : new Flags[]{Flags.GIVEEFFECT_IN, Flags.GIVEEFFECT_OUT, Flags.TAKEEFFECT_IN, Flags.TAKEEFFECT_OUT})
 			{
 				List<String> effects = saveFile.getStringList("effects." + flag.toString());
 				for (String key : effects)

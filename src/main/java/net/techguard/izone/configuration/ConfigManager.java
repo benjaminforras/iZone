@@ -53,6 +53,17 @@ public class ConfigManager {
 	 * Main
 	 */
 
+
+	public static Boolean getAutoExpandEnabled()
+	{
+		return mainConfig.get().getBoolean("autoexpand.enabled", true);
+	}
+
+	public static Boolean getTitlesEnabled()
+	{
+		return mainConfig.get().getBoolean("messages.title.enabled", true);
+	}
+
 	public static Integer getTitleFadeIn()
 	{
 		return mainConfig.get().getInt("messages.title.fadeIn", 2);

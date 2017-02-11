@@ -41,28 +41,23 @@ public class Visualizer {
 		Location loc = getPlayer().getLocation();
 		loc.add((double) ConfigManager.getViewDistance(), (double) ConfigManager.getViewDistance(), (double) ConfigManager.getViewDistance());
 
-		for (int x = minx; x <= maxx; x++)
-		{
-			for (int y = miny; y <= maxy; y++)
-			{
-				for (int z = minz; z <= maxz; z++)
-				{
-					if (loc.getX() < x || loc.getY() < y || loc.getZ() < z)
-					{
+		for (int x = minx; x <= maxx; x++) {
+			for (int y = miny; y <= maxy; y++) {
+				for (int z = minz; z <= maxz; z++) {
+					if (loc.getX() < x || loc.getY() < y || loc.getZ() < z) {
 						break;
 					}
 
 					b = w.getBlockAt(x, y, z);
-					if (isOutline(b.getLocation(), minx, maxx, miny, maxy, minz, maxz))
-					{
+					if (isOutline(b.getLocation(), minx, maxx, miny, maxy, minz, maxz)) {
+
 						ParticleEffect particleEffect = ParticleEffect.valueOf(ConfigManager.getParticle());
-						if (particleEffect == null)
-						{
+						if (particleEffect == null) {
 							System.out.println("ERROR! Invalid particle in iZone/config.yml");
 							return;
 						}
 						//particleEffect.send(Collections.singleton(player), x, y, z, 0, 1, b.getLocation(), player);
-						particleEffect.send(Collections.singletonList(player), b.getLocation().clone(), 0, 0, 0, 0, 1);
+						particleEffect.send(Collections.singletonList(player), new Location(b.getWorld(), b.getX() + 0.5, b.getY() + 0.5, b.getZ() + 0.5), 0, 0, 0, 0, 1);
 					}
 				}
 			}
