@@ -46,14 +46,8 @@ public class pListener implements Listener {
 		}
 
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 		Settings  sett   = Settings.getSett(player);
@@ -149,14 +143,8 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 
@@ -265,14 +253,8 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 
@@ -393,14 +375,8 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 		Item item = event.getItemDrop();
@@ -414,14 +390,8 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerPickupItem(PlayerPickupItemEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 		Item item = event.getItem();
@@ -436,14 +406,8 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 		Block b    = event.getBlockClicked().getRelative(event.getBlockFace());
@@ -458,14 +422,8 @@ public class pListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onPlayerBucketFill(PlayerBucketFillEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
 
 		Block b    = event.getBlockClicked().getRelative(event.getBlockFace());

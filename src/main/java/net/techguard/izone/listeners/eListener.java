@@ -1,11 +1,10 @@
 package net.techguard.izone.Listeners;
 
-import net.techguard.izone.Configuration.ConfigManager;
-import net.techguard.izone.iZone;
 import net.techguard.izone.Managers.PvPManager;
 import net.techguard.izone.Managers.ZoneManager;
 import net.techguard.izone.Zones.Flags;
 import net.techguard.izone.Zones.Zone;
+import net.techguard.izone.iZone;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -35,34 +34,18 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onCreatureSpawn(CreatureSpawnEvent event) {
 		Entity entity = event.getEntity();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(entity.getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(entity.getWorld().getName()))
-			{
-				return;
-			}
+		if(ZoneManager.IsDisabledWorld(entity.getWorld())) {
+			return;
 		}
 
-		Zone   zone   = ZoneManager.getZone(event.getLocation());
+		Zone zone = ZoneManager.getZone(event.getLocation());
 
-		if (zone != null)
-		{
-			if ((entity instanceof Monster))
-			{
-				if (zone.hasFlag(Flags.MONSTER))
-				{
+		if (zone != null) {
+			if ((entity instanceof Monster)) {
+				if (zone.hasFlag(Flags.MONSTER)) {
 					event.setCancelled(true);
 				}
-			}
-			else if (((entity instanceof Animals)) && (zone.hasFlag(Flags.ANIMAL)))
-			{
+			} else if (((entity instanceof Animals)) && (zone.hasFlag(Flags.ANIMAL))) {
 				event.setCancelled(true);
 			}
 		}
@@ -70,65 +53,39 @@ public class eListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent event) {
-		Entity      entity = event.getEntity();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(entity.getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(entity.getWorld().getName()))
-			{
-				return;
-			}
+		Entity entity = event.getEntity();
+		if(ZoneManager.IsDisabledWorld(entity.getWorld())) {
+			return;
 		}
 
+
 		List<Block> blocks = new ArrayList<Block>();
-		for (Block b : event.blockList())
-		{
+		for (Block b : event.blockList()) {
 			Zone zone = ZoneManager.getZone(b.getLocation());
-			if ((zone == null) || ((!zone.hasFlag(Flags.EXPLOSION)) && ((!(entity instanceof Creeper)) || (!zone.hasFlag(Flags.CREEPER))) && ((!(entity instanceof TNTPrimed)) || (!zone.hasFlag(Flags.TNT)))))
-			{
+			if ((zone == null) || ((!zone.hasFlag(Flags.EXPLOSION)) && ((!(entity instanceof Creeper)) || (!zone.hasFlag(Flags.CREEPER))) && ((!(entity instanceof TNTPrimed)) || (!zone.hasFlag(Flags.TNT))))) {
 				continue;
 			}
 			blocks.add(b);
 		}
 		Block b;
-		for (Iterator<Block> it = blocks.iterator(); it.hasNext(); event.blockList().remove(b))
-		{
+		for (Iterator<Block> it = blocks.iterator(); it.hasNext(); event.blockList().remove(b)) {
 			b = it.next();
 		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onEntityChangeBlock(EntityChangeBlockEvent event) {
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(event.getBlock().getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(event.getBlock().getWorld().getName()))
-			{
-				return;
-			}
+		if(ZoneManager.IsDisabledWorld(event.getBlock().getWorld())) {
+			return;
 		}
 
-		if ((event.isCancelled()) || (event.getEntityType() != EntityType.ENDERMAN))
-		{
+		if ((event.isCancelled()) || (event.getEntityType() != EntityType.ENDERMAN)) {
 			return;
 		}
 		Block b    = event.getBlock();
 		Zone  zone = ZoneManager.getZone(b.getLocation());
 
-		if ((zone != null) && (zone.hasFlag(Flags.ENDERMAN)))
-		{
+		if ((zone != null) && (zone.hasFlag(Flags.ENDERMAN))) {
 			event.setCancelled(true);
 		}
 	}
@@ -136,33 +93,18 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
-		else
-		{
-			if (ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
+		Zone zone = ZoneManager.getZone(player.getLocation());
 
-		Zone   zone   = ZoneManager.getZone(player.getLocation());
-
-		if (zone != null)
-		{
-			if ((zone.hasFlag(Flags.DEATHDROP)) || (zone.hasFlag(Flags.SAFEDEATH)))
-			{
+		if (zone != null) {
+			if ((zone.hasFlag(Flags.DEATHDROP)) || (zone.hasFlag(Flags.SAFEDEATH))) {
 				event.getDrops().clear();
 			}
 
-			if (zone.hasFlag(Flags.SAFEDEATH))
-			{
-				this.safeDeath.put(player.getName(), new ItemStack[][]{player.getInventory().getArmorContents(), player.getInventory().getContents()});
+			if (zone.hasFlag(Flags.SAFEDEATH)) {
+				safeDeath.put(player.getName(), new ItemStack[][]{player.getInventory().getArmorContents(), player.getInventory().getContents()});
 				event.setDroppedExp(0);
 				event.setKeepLevel(true);
 			}
@@ -172,24 +114,11 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
-		else
-		{
-			if (ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
-
-		if (this.safeDeath.containsKey(player.getName()))
-		{
-			ItemStack[][] drops = this.safeDeath.remove(player.getName());
+		if (safeDeath.containsKey(player.getName())) {
+			ItemStack[][] drops = safeDeath.remove(player.getName());
 			player.getInventory().setArmorContents(drops[0]);
 			player.getInventory().setContents(drops[1]);
 		}
@@ -198,115 +127,84 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageEvent event) {
 		Entity defender = event.getEntity();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(defender.getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(defender.getWorld().getName()))
-			{
-				return;
-			}
+		if(ZoneManager.IsDisabledWorld(defender.getWorld())) {
+			return;
 		}
 
-		Zone   zone     = ZoneManager.getZone(defender.getLocation());
+		Zone zone = ZoneManager.getZone(defender.getLocation());
 
-		if ((event instanceof EntityDamageByEntityEvent))
-		{
+		if ((event instanceof EntityDamageByEntityEvent)) {
 			Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
-			if ((defender instanceof Player))
-			{
-				if ((damager instanceof Arrow))
-				{
+			if ((defender instanceof Player)) {
+				if ((damager instanceof Arrow)) {
 					ProjectileSource projSource = ((Arrow) damager).getShooter();
-					if ((projSource instanceof Player))
-					{
+					if ((projSource instanceof Player)) {
 						damager = (Player) projSource;
-						if (PvPManager.onPlayerAttack((Player) defender, (Player) damager))
-						{
+						if (PvPManager.onPlayerAttack((Player) defender, (Player) damager)) {
 							event.setCancelled(true);
 							return;
 						}
 					}
 				}
-				if (((damager instanceof Player)) && (PvPManager.onPlayerAttack((Player) defender, (Player) damager)))
-				{
+				if (((damager instanceof Player)) && (PvPManager.onPlayerAttack((Player) defender, (Player) damager))) {
 					event.setCancelled(true);
 					return;
 				}
 			}
 		}
 
-		if (zone != null)
-		{
-			if ((event instanceof EntityDamageByEntityEvent))
-			{
+		if (zone != null) {
+			if ((event instanceof EntityDamageByEntityEvent)) {
 				Entity damager = ((EntityDamageByEntityEvent) event).getDamager();
-				if (((defender instanceof Player)) && ((damager instanceof Monster)) && (zone.hasFlag(Flags.MONSTER)))
-				{
+				if (((defender instanceof Player)) && ((damager instanceof Monster)) && (zone.hasFlag(Flags.MONSTER))) {
 					event.setCancelled(true);
 					return;
 				}
 				if (((defender instanceof ItemFrame)) || ((defender instanceof ArmorStand)) ||
-				    ((defender instanceof EnderCrystal)) || (((defender instanceof Villager)) && (zone.hasFlag(Flags.PROTECTION))))
-				{
+						((defender instanceof EnderCrystal)) || (((defender instanceof Villager)) && (zone.hasFlag(Flags.PROTECTION)))) {
 					boolean damagerIsOp = false;
-					if ((damager instanceof Player))
-					{
+					if ((damager instanceof Player)) {
 						Player pDmg = (Player) damager;
 						damagerIsOp = ZoneManager.checkPermission(zone, pDmg, Flags.PROTECTION);
 						if (!damagerIsOp) pDmg.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 					}
-					if (!damagerIsOp)
-					{
+					if (!damagerIsOp) {
 						event.setCancelled(true);
 						return;
 					}
 				}
-				if (((damager instanceof Snowball)) && (zone.hasFlag(Flags.PVP)))
-				{
+				if (((damager instanceof Snowball)) && (zone.hasFlag(Flags.PVP))) {
 					event.setCancelled(true);
 					return;
 				}
-				if (((damager instanceof FishHook)) && (zone.hasFlag(Flags.PVP)))
-				{
+				if (((damager instanceof FishHook)) && (zone.hasFlag(Flags.PVP))) {
 					event.setCancelled(true);
 					return;
 				}
-				if (((damager instanceof Egg)) && (zone.hasFlag(Flags.PVP)))
-				{
+				if (((damager instanceof Egg)) && (zone.hasFlag(Flags.PVP))) {
 					event.setCancelled(true);
 					return;
 				}
-				if (((damager instanceof EnderPearl)) && (zone.hasFlag(Flags.PVP)))
-				{
+				if (((damager instanceof EnderPearl)) && (zone.hasFlag(Flags.PVP))) {
 					EnderPearl ep = (EnderPearl) damager;
-					if (ep.getShooter() != defender)
-					{
+					if (ep.getShooter() != defender) {
 						event.setCancelled(true);
 						return;
 					}
 				}
 
-				if (((damager instanceof TNTPrimed)) && (zone.hasFlag(Flags.TNT)))
-				{
+				if (((damager instanceof TNTPrimed)) && (zone.hasFlag(Flags.TNT))) {
 					event.setCancelled(true);
 					return;
 				}
 
-				if (((damager instanceof Explosive)) && (zone.hasFlag(Flags.EXPLOSION)))
-				{
+				if (((damager instanceof Explosive)) && (zone.hasFlag(Flags.EXPLOSION))) {
 					event.setCancelled(true);
 					return;
 				}
 			}
 
-			if (((defender instanceof Player)) && (zone.hasFlag(Flags.GOD)))
-			{
+			if (((defender instanceof Player)) && (zone.hasFlag(Flags.GOD))) {
 				event.setCancelled(true);
 			}
 		}
@@ -314,30 +212,17 @@ public class eListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onHangingBreak(HangingBreakEvent event) {
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(event.getEntity().getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(event.getEntity().getWorld().getName()))
-			{
-				return;
-			}
+		if(ZoneManager.IsDisabledWorld(event.getEntity().getWorld())) {
+			return;
 		}
 
-		if ((event instanceof HangingBreakByEntityEvent))
-		{
+		if ((event instanceof HangingBreakByEntityEvent)) {
 			onHangingBreakByEntity((HangingBreakByEntityEvent) event);
 			return;
 		}
 		Hanging h    = event.getEntity();
 		Zone    zone = ZoneManager.getZone(h.getLocation());
-		if ((zone != null) && (zone.hasFlag(Flags.PROTECTION)))
-		{
+		if ((zone != null) && (zone.hasFlag(Flags.PROTECTION))) {
 			event.setCancelled(true);
 		}
 	}
@@ -346,43 +231,26 @@ public class eListener implements Listener {
 		Entity  remover = event.getRemover();
 		Hanging h       = event.getEntity();
 		Zone    zone    = ZoneManager.getZone(h.getLocation());
-		if ((remover instanceof Player))
-		{
+		if ((remover instanceof Player)) {
 			Player player = (Player) remover;
-			if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
-			{
+			if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION))) {
 				event.setCancelled(true);
 				player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			}
-		}
-		else if ((zone != null) && (zone.hasFlag(Flags.PROTECTION)))
-		{
+		} else if ((zone != null) && (zone.hasFlag(Flags.PROTECTION))) {
 			event.setCancelled(true);
 		}
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onHangingPlace(HangingPlaceEvent event) {
-		Player  player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
+		Player player = event.getPlayer();
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
-		else
-		{
-			if (ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
-
-		Hanging h      = event.getEntity();
-		Zone    zone   = ZoneManager.getZone(h.getLocation());
-		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
-		{
+		Hanging h    = event.getEntity();
+		Zone    zone = ZoneManager.getZone(h.getLocation());
+		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION))) {
 			event.setCancelled(true);
 			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
@@ -391,31 +259,16 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
-
-		Entity entity = event.getRightClicked();
-		if ((player == null) || (entity == null))
-		{
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
 			return;
 		}
-		if (((entity instanceof Painting)) || ((entity instanceof ItemFrame)) || ((entity instanceof ArmorStand)) || ((entity instanceof EnderCrystal)))
-		{
+		Entity entity = event.getRightClicked();
+		if ((player == null) || (entity == null)) {
+			return;
+		}
+		if (((entity instanceof Painting)) || ((entity instanceof ItemFrame)) || ((entity instanceof ArmorStand)) || ((entity instanceof EnderCrystal))) {
 			Zone zone = ZoneManager.getZone(entity.getLocation());
-			if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
-			{
+			if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION))) {
 				event.setCancelled(true);
 				player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 			}
@@ -425,29 +278,15 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onArmorStand(PlayerArmorStandManipulateEvent event) {
 		Player player = event.getPlayer();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
-		else
-		{
-			if (ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
-
 		Entity entity = event.getRightClicked();
-		if ((player == null) || (entity == null))
-		{
+		if ((player == null) || (entity == null)) {
 			return;
 		}
 		Zone zone = ZoneManager.getZone(entity.getLocation());
-		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION)))
-		{
+		if ((zone != null) && (!ZoneManager.checkPermission(zone, player, Flags.PROTECTION))) {
 			event.setCancelled(true);
 			player.sendMessage(iZone.getPrefix() + tl("zone_protected"));
 		}
@@ -456,26 +295,12 @@ public class eListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onEntityBlockFormEvent(EntityBlockFormEvent event) {
 		Entity player = event.getEntity();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(player.getWorld())) {
+			return;
 		}
-		else
-		{
-			if (ConfigManager.containsWorld(player.getWorld().getName()))
-			{
-				return;
-			}
-		}
-
-		if ((player instanceof Player))
-		{
+		if ((player instanceof Player)) {
 			Zone zone = ZoneManager.getZone(player.getLocation());
-			if ((zone != null) && (!ZoneManager.checkPermission(zone, (Player) player, Flags.PROTECTION)))
-			{
+			if ((zone != null) && (!ZoneManager.checkPermission(zone, (Player) player, Flags.PROTECTION))) {
 				event.setCancelled(true);
 			}
 		}

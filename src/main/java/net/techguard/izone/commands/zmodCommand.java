@@ -196,16 +196,9 @@ public class zmodCommand extends BaseCommand {
 	}
 
 	public void onPlayerCommand(Player player, String[] cmd) {
-		if (ConfigManager.useAsWhiteList()) {
-			if (!ConfigManager.containsWorld(player.getWorld().getName())) {
-				player.sendMessage(iZone.getPrefix() + tl("world_disabled"));
-				return;
-			}
-		} else {
-			if (ConfigManager.containsWorld(player.getWorld().getName())) {
-				player.sendMessage(iZone.getPrefix() + tl("world_disabled"));
-				return;
-			}
+		if(ZoneManager.IsDisabledWorld(player.getWorld())) {
+			player.sendMessage(iZone.getPrefix() + tl("world_disabled"));
+			return;
 		}
 
 		if (cmd.length == 1) {

@@ -169,4 +169,9 @@ public class ZoneManager {
 		}
 		return "";
 	}
+
+	public static Boolean IsDisabledWorld(World world)
+	{
+		return ConfigManager.useAsWhiteList() != ConfigManager.containsWorld(world.getName());
+	}
 }

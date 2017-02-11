@@ -1,6 +1,5 @@
 package net.techguard.izone.Listeners;
 
-import net.techguard.izone.Configuration.ConfigManager;
 import net.techguard.izone.Managers.ZoneManager;
 import net.techguard.izone.Zones.Flags;
 import net.techguard.izone.Zones.Zone;
@@ -14,19 +13,8 @@ public class wListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onLightningStrike(LightningStrikeEvent event) {
 		LightningStrike strike = event.getLightning();
-		if (ConfigManager.useAsWhiteList())
-		{
-			if (!ConfigManager.containsWorld(strike.getWorld().getName()))
-			{
-				return;
-			}
-		}
-		else
-		{
-			if (ConfigManager.containsWorld(strike.getWorld().getName()))
-			{
-				return;
-			}
+		if (ZoneManager.IsDisabledWorld(strike.getWorld())) {
+			return;
 		}
 
 		Zone            zone   = ZoneManager.getZone(strike.getLocation());
