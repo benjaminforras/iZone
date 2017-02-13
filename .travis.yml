@@ -14,14 +14,15 @@ cache:
     
 before_install:
  - chmod +x gradlew
- - ./gradlew clean
 
 # Extract the latest commits
 before_script:
 #  - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
   - "export COMMIT_MESSAGE=\"$(git log --format=%B --no-merges -n 1)\""
 
-script: ./gradlew assemble -Pversion="1.0.$TRAVIS_BUILD_NUMBER"
+script: 
+ - ./gradlew clean
+ - ./gradlew assemble -Pversion="1.0.$TRAVIS_BUILD_NUMBER"
 
 # Auto push release
 before_deploy:
