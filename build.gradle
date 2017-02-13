@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'net.techguard'
-version = '1.0.${TRAVIS_BUILD_NUMBER}'
+version = '1.0.$TRAVIS_BUILD_NUMBER'
 
 description = "This plugin allow you to setup custom zones for example shops, pvp areas or spawn."
 
