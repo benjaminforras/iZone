@@ -14,7 +14,7 @@ cache:
     
 before_install:
  - chmod +x gradlew
- - gradlew clean
+ - ./gradlew clean
 
 # Extract the latest commits
 before_script:
