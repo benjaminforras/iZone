@@ -55,6 +55,12 @@ shadowJar {
 	relocate 'org.inventivetalent.reflection', 'net.techguard.izone.Utils.ReflectionHelper'
 }
 
+task copyFile(type: Copy) {
+    from('build/libs')
+    into('target')
+    include('iZone.jar')
+}
+
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
@@ -64,3 +70,4 @@ processResources {
 }
 
 build.dependsOn(shadowJar)
+build.finalizedBy(copyFile)
