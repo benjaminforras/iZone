@@ -1,0 +1,66 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'net.techguard'
+version = '1.0.${TRAVIS_BUILD_NUMBER}'
+
+description = "This plugin allow you to setup custom zones for example shops, pvp areas or spawn."
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+
+buildscript {
+	repositories {
+		jcenter()
+		maven { url "https://plugins.gradle.org/m2/" }
+	}
+
+	dependencies {
+		classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
+	}
+}
+
+repositories {
+	maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+	maven { url "http://nexus.hc.to/content/repositories/pub_releases/" }
+	maven { url "https://jitpack.io" }
+	maven { url "http://repo.maven.apache.org/maven2" }
+	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+	compile group: 'com.github.InventivetalentDev', name: 'ReflectionHelper', version:'395cfea950'
+	compile group: 'com.github.InventivetalentDev', name: 'ParticleAPI', version:'65b701708a'
+	compile group: 'com.github.TryHardDood', name: 'BossBarAPI', version:'dafa36593c'
+	compile group: 'org.spigotmc', name: 'spigot-api', version:'1.11.2-R0.1-SNAPSHOT'
+	compile group: 'net.milkbowl.vault', name: 'VaultAPI', version:'1.6'
+	compile group: 'net.milkbowl.vault', name: 'Vault', version:'1.6.6'
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+
+shadowJar {
+    archiveName = "${baseName}.${extension}"
+
+	dependencies {
+		include(dependency('com.github.InventivetalentDev:ReflectionHelper'))
+		include(dependency('com.github.InventivetalentDev:ParticleAPI'))
+		include(dependency('com.github.TryHardDood:BossBarAPI'))
+	}
+
+	relocate 'org.inventivetalent.bossbar', 'net.techguard.izone.Utils.BossBarAPI'
+	relocate 'org.inventivetalent.particle', 'net.techguard.izone.Utils.ParticleAPI'
+	relocate 'org.inventivetalent.reflection', 'net.techguard.izone.Utils.ReflectionHelper'
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+build.dependsOn(shadowJar)
