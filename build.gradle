@@ -69,5 +69,5 @@ processResources {
     }
 }
 
-build.dependsOn(shadowJar)
-build.finalizedBy(copyFile)
+assemble.dependsOn(shadowJar)
+assemble.finalizedBy(copyFile)
