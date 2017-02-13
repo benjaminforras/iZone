@@ -80,7 +80,6 @@ public class iZone extends JavaPlugin {
 		registerCommands();
 
 		getLogger().info("Your server is running version " + this.getDescription().getVersion());
-		getLogger().info("Minecraft version is: " + Minecraft.VERSION);
 
 		VaultManager.load(this);
 
